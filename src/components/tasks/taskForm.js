@@ -1,0 +1,226 @@
+import React, { useEffect, useState } from 'react'
+import { Modal } from "react-bootstrap"
+import formHandler from "../../utils/FormHandler"
+import { validateTask } from "../../utils/validation"
+
+export const TaskForm = (props) => {
+    const [formSubmitted, setFormSubmitted] = useState(false)
+    const {
+        handleChange,
+        handleSubmit,
+        setValue,
+        initForm,
+        values,
+        errors,
+    } = formHandler(stateTask, validateTask);
+
+    function stateTask() {
+
+    }
+
+    function statusUpdate(status) {
+
+    }
+
+
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+            backdrop="static"
+            scrollable={true}
+        >
+            <Modal.Header closeButton onHide={() => {
+                if (!formSubmitted) {
+                    initForm({});
+                }
+            }}>
+                {<Modal.Title id="contained-modal-title-vcenter">
+                    {props.type === "Add" && <div> Add Task Details</div>}
+                    {props.type === "View" && <div> View Task Details</div>}
+                    {props.type === "Edit" && <div> Edit Task Details</div>}
+                    {props.type === "State" && <div> Task Status Details</div>}
+                </Modal.Title>}
+            </Modal.Header>
+            <Modal.Body scrollable>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <div className={"pop-up-form-container"}>
+                            <div className={"row"}>
+
+                                {<div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Task Name</label>
+                                        <input name={"taskName"} placeholder={"Enter Task Name"}
+                                            className={`form-control ${errors.taskName ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            id="exampleInputEmail5"
+                                            onChange={handleChange}
+                                            value={values.taskName || ""}
+                                            aria-describedby="emailHelp"
+                                            disabled={["View", "State"].includes(props.type)} />
+                                        {errors.taskName && <p className={"text-red"}>{errors.taskName}</p>}
+                                    </div>
+                                </div>}
+                                <div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail1"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Category</label>
+                                        <select className={`form-control ${errors.category ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            value={values.category || ""}
+                                            name={"category"}
+                                            aria-label="Default select example"
+                                            disabled={["View", "State"].includes(props.type)}>
+                                            <option hidden>Select Category</option>
+                                            <option value="Category01">Category 01</option>
+                                            <option value="Category02">Category 02</option>
+                                            <option value="Category03">Category 03</option>
+                                            <option value="Category04">Category 04</option>
+                                            <option value="Category05">Category 05</option>
+                                            <option value="Category06">Category 06</option>
+                                        </select>
+                                        {errors.category && <p className={"text-red"}>{errors.category}</p>}
+                                    </div>
+                                </div>
+                                {<div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Start Date</label>
+                                        <input id="startDate"
+                                            className={`form-control ${errors.startDate ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            name={"date"}
+                                            value={values.startDate || ""}
+                                            type="date"
+
+                                            disabled={["View", "State"].includes(props.type)} />
+
+                                        {errors.startDate && <p className={"text-red"}>{errors.startDate}</p>}
+                                    </div>
+                                </div>}
+                                {<div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Start Time</label>
+                                        <input id="startTime"
+                                            className={`form-control  ${errors.startTime ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            name={"time"}
+                                            value={values.startTime || ""}
+                                            type="time"
+
+                                            disabled={["View", "State"].includes(props.type)} />
+                                        {errors.startTime && <p className={"text-red"}>{errors.startTime}</p>}
+                                    </div>
+                                </div>}
+                                {<div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>End Date</label>
+                                        <input id="endDate"
+                                            className={`form-control ${errors.endDate ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            name={"date"}
+                                            value={values.endDate || ""}
+                                            type="date"
+
+                                            disabled={["View", "State"].includes(props.type)} />
+
+                                        {errors.endDate && <p className={"text-red"}>{errors.endDate}</p>}
+                                    </div>
+                                </div>}
+                                {<div className={"col-md-6"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>End Time</label>
+                                        <input id="endTime"
+                                            className={`form-control  ${errors.endTime ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            name={"time"}
+                                            value={values.endTime || ""}
+                                            type="time"
+
+                                            disabled={["View", "State"].includes(props.type)} />
+                                        {errors.endTime && <p className={"text-red"}>{errors.endTime}</p>}
+                                    </div>
+                                </div>}
+                                {<div className={"col-md-12"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail5"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Description</label>
+                                        <textarea name={"description"} placeholder={"Enter Description"} rows="5"
+                                            className={`form-control ${errors.description ? "border-red" : ""}${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            id="exampleInputEmail5"
+                                            onChange={handleChange}
+                                            value={values.description || ""}
+                                            aria-describedby="emailHelp"
+                                            disabled={["View", "State"].includes(props.type)} />
+                                        {errors.description && <p className={"text-red"}>{errors.description}</p>}
+                                    </div>
+                                </div>}
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </Modal.Body>
+            <Modal.Footer>
+                <button
+                    type="button"
+                    className={"btn btn-secondary"}
+                    onClick={() => {
+                        if (!formSubmitted) { // Prevent hiding the modal if the form is submitted
+                            props.onHide();
+                            initForm({});
+                        }
+                    }}
+                >
+                    Cancel
+                </button>
+
+                {props.type === "Add" && <button
+                    type="button"
+                    className={"btn btn-secondary tasks-dropdown-btn"}
+                    onClick={handleSubmit}
+                >
+                    Submit
+                </button>}
+
+                {props.type === "State" && <div className='d-flex gap-2'>
+                    <button
+                        type="button"
+                        className={"btn btn-warning"}
+                        onClick={() => statusUpdate("RUNNING")}
+                    >
+                        Running
+                    </button>
+                    <button
+                        type="button"
+                        className={"btn btn-success"}
+                        onClick={() => statusUpdate("COMPLETED")}
+                    >
+                        Completed
+                    </button>
+                    <button
+                        type="button"
+                        className={"btn btn-danger"}
+                        onClick={() => statusUpdate("FAILED")}
+                    >
+                        Failed
+                    </button>
+                </div>}
+
+                {props.type === "Edit" && <button
+                    type="button"
+                    className={"btn btn-secondary tasks-dropdown-btn"}
+                    onClick={handleSubmit}
+                >
+                    Update
+                </button>}
+            </Modal.Footer>
+        </Modal>
+    )
+}
