@@ -57,4 +57,20 @@ export function validateTask(values) {
     return errors;
 }
 
+export function validateEvent(values) {
+    console.log(values)
+    let errors = {};
+
+    if (!values.title) {
+        errors.title = "Title is Required"
+    }
+    if (!values.start) {
+        errors.start = "Start Date is Required"
+    }
+    if (!values.end) {
+        errors.end = "End Date is Required"
+    }
+
+    return errors;
+}
 

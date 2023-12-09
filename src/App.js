@@ -4,10 +4,13 @@ import Layout from './layout/layout';
 import { Route, Routes } from 'react-router-dom';
 import { Home } from "./components/home/home";
 import { Tasks } from './components/tasks/tasks';
-import { Calendar } from './components/calendar/calendar';
+import { Calender } from './components/calender/calender';
 import { Analysis } from './components/analysis/analysis';
 import { Settings } from './components/settings/settings';
 import { Login } from './components/login/login';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+// import 'react-datetime-picker/dist/DateTimePicker.css';
+// import 'react-toastify/dist/ReactToastify.css'
 
 
 function App() {
@@ -16,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar" element={<Calender />} />
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/login" element={<Login />} />

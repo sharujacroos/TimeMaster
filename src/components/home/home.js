@@ -20,11 +20,11 @@ export const Home = () => {
     },
     series: [
       {
-        name: "progress tasks",
+        name: "Progress Tasks",
         data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 54, 75, 96]
       },
       {
-        name: "finished tasks",
+        name: "Finished Tasks",
         data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
       }
     ]
