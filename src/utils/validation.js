@@ -28,6 +28,40 @@ export function validateLogin(values) {
     return errors;
 }
 
+
+export function validateTaskSetting(values) {
+    let errors = {};
+
+    if (!values.name) {
+        errors.name = " First Name is Required"
+    }
+    if (!values.address) {
+        errors.address = "Address is Required"
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!values.email) {
+        errors.email = "Email is required";
+    } else if (!emailRegex.test(values.email)) {
+        errors.email = "Invalid email format";
+    } else {
+        // Additional conditions to reject specific email addresses
+        const rejectedEmails = ["example@rejected.com", "another@rejected.com"];
+        if (rejectedEmails.includes(values.email)) {
+            errors.email = "This email address is not allowed";
+        }
+    }
+    if (!values.phoneNumber) {
+        errors.phoneNumber = 'Contact No is required';
+    } else if (!/^([+]\d{2})?\d{10}$/.test(values.phoneNumber)) {
+        errors.phoneNumber = 'Contact No is not valid';
+    }
+
+    return errors;
+
+}
+
+
 export function validateTask(values) {
     console.log(values)
     let errors = {};
