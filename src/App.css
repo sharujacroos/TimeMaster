@@ -572,3 +572,38 @@
 .task-settings-form {
   padding: 24px;
 }
+
+/* Login */
+
+.login-form-inner form {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  border-bottom-width: 2px;
+  font-size: 17px;
+}
+
+.login-field {
+  margin-top: 20px;
+}
+
+.login-form-inner form {
+  height: 100%;
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid lightgrey;
+  border-bottom-width: 2px;
+  font-size: 17px;
+  background-color: #a32cde1f;
+}
+
+.brand-text {
+  font-family: 'Avenir', sans-serif;
+}
+
+.login-forgot {
+  display: block;
+  /* margin-top: 10px; */
+}
