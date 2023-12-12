@@ -25,7 +25,7 @@ export const Settings = () => {
         <Layout>
             <div className={"container"}>
                 <div className={"container-widget"}>
-                    <h1 className="p-3 heading">Settings</h1>
+                    <h1 className={"p-3 heading"}>Settings</h1>
                     <div className={"form-container"}>
                         <form onSubmit={handleSubmit} className={"row task-settings-form"}>
                             <div className={"col-md-6"}>

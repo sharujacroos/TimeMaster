@@ -575,16 +575,6 @@
 
 /* Login */
 
-.login-form-inner form {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid lightgrey;
-  border-bottom-width: 2px;
-  font-size: 17px;
-}
-
 .login-field {
   margin-top: 20px;
 }
@@ -592,18 +582,25 @@
 .login-form-inner form {
   height: 100%;
   width: 100%;
+  padding: 20px;
+  margin: auto;
   border-radius: 24px;
-  border: 1px solid lightgrey;
-  border-bottom-width: 2px;
-  font-size: 17px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   background-color: #a32cde1f;
+  font-size: 17px;
 }
 
 .brand-text {
-  font-family: 'Avenir', sans-serif;
+  font-family: Georgia, serif;
+  color: #a32cde !important;
 }
 
 .login-forgot {
-  display: block;
-  /* margin-top: 10px; */
+  color: #a32cde !important;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.login-logo {
+  height: 90px !important;
 }
