@@ -575,13 +575,17 @@
 
 /* Login */
 
+.login {
+  background-color: #a32cde27;
+}
+
 .login-field {
   margin-top: 20px;
 }
 
 .login-form-inner form {
   height: 100%;
-  width: 100%;
+  width: 360px;
   padding: 20px;
   margin: auto;
   border-radius: 24px;
@@ -603,4 +607,26 @@
 
 .login-logo {
   height: 90px !important;
+}
+
+
+@media (max-width: 768px) {
+  .login-image {
+    width: 325px !important;
+    height: 225px !important;
+    padding: 20px;
+    font-size: 12px;
+  }
+
+  .login-form-inner form {
+    width: 300px;
+  }
+
+  .container-widget {
+    padding: 3rem;
+  }
+
+  .login{
+    height: 100% !important;
+  }
 }

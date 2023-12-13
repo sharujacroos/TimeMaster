@@ -21,19 +21,19 @@ export const Login = () => {
     }
 
     return (
-        <div className={"container vh-100"}>
-            <div className="row py-5 px-3">
+        <div className={"vh-100 d-flex align-items-center justify-content-center login"}>
+            <div className="row m-0">
                 <div className={"col-md-6 mx-auto"}>
-                    <div className="mt-5 text-center">
-                        <img className={" img-fluid img-responsive mx-auto d-block"} src={LoginImage} alt="" />
+                    <div className="d-flex align-items-center justify-content-center">
+                        <img className={"login-image img-responsive d-block align-items-center"} src={LoginImage} alt="" />
                     </div>
                 </div>
-                <div className={"col-md-6 mx-auto d-flex align-items-center justify-content-center"}>
+                <div className={"col-md-6 d-flex align-items-center justify-content-center"}>
                     <div className={"container-widget"}>
                         <div className="login-form-inner">
                             <form action="#">
-                                <div className="login-image d-flex align-items-center">
-                                    <img className={"login-logo img-fluid img-responsive"} src={Logo} alt="" />
+                                <div className="d-flex align-items-center">
+                                    <img className={"login-logo d-block mx-auto img-fluid"} src={Logo} alt="" />
                                 </div>
                                 <h1 className="brand-text text-center">Time Master</h1>
                                 <div className="login-field">
