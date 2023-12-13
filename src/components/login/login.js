@@ -21,11 +21,11 @@ export const Login = () => {
     }
 
     return (
-        <div className={"container"}>
+        <div className={"container vh-100"}>
             <div className="row py-5 px-3">
                 <div className={"col-md-6 mx-auto"}>
-                    <div className="mt-5">
-                        <img className={" img-fluid img-responsive"} src={LoginImage} alt="" />
+                    <div className="mt-5 text-center">
+                        <img className={" img-fluid img-responsive mx-auto d-block"} src={LoginImage} alt="" />
                     </div>
                 </div>
                 <div className={"col-md-6 mx-auto d-flex align-items-center justify-content-center"}>
@@ -46,17 +46,18 @@ export const Login = () => {
                                         name={"password"} onChange={handleChange} placeholder="Password" />
                                 </div>
                                 {errors.password && <p className={"text-red"}>{errors.password}</p>}
-                                <br />
-                                <div className="login-forgot py-3 gap-3 text-start">
+                                <div className="login-forgot py-3 text-start">
                                     <a href="">Forgot Password?</a>
                                 </div>
-                                <button
-                                    type="button"
-                                    className={"btn btn-secondary tasks-dropdown-btn flex-end"}
-                                    onClick={handleSubmit}
-                                >
-                                    Login
-                                </button>
+                                <div className="login-btn d-grid">
+                                    <button
+                                        type="button"
+                                        className={"btn btn-secondary tasks-dropdown-btn flex-end"}
+                                        onClick={handleSubmit}
+                                    >
+                                        Login
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
