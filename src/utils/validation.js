@@ -20,7 +20,7 @@ export function validateLogin(values) {
     let errors = {};
 
     if (!values.username) {
-        errors.username = 'Username is is Required';
+        errors.username = 'Username is Required';
     }
     if (!values.password) {
         errors.password = "Password is Required"
@@ -28,6 +28,29 @@ export function validateLogin(values) {
     return errors;
 }
 
+export function validateSignUp(values) {
+    let errors = {};
+
+    if (!values.username) {
+        errors.username = 'Username is Required';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!values.userEmail) {
+        errors.userEmail = "Email is required";
+    } else if (!emailRegex.test(values.userEmail)) {
+        errors.userEmail = "Invalid email format";
+    } else {
+        // Additional conditions to reject specific email addresses
+        const rejectedEmails = ["example@rejected.com", "another@rejected.com"];
+        if (rejectedEmails.includes(values.userEmail)) {
+            errors.userEmail = "This email address is not allowed";
+        }
+    }
+    if (!values.password) {
+        errors.password = "Password is Required"
+    }
+    return errors;
+}
 
 export function validateTaskSetting(values) {
     let errors = {};

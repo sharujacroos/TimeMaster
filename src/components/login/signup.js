@@ -1,11 +1,11 @@
 import Layout from '../../layout/layout'
 import React from 'react'
-import LoginImage from "../../assets/login.svg"
+import SignUpImage from "../../assets/signup.svg"
 import Logo from "../../assets/logo.png"
-import { validateLogin } from "../../utils/validation"
+import { validateSignUp } from "../../utils/validation"
 import formHandler from "../../utils/FormHandler"
 
-export const Login = () => {
+export const SignUp = () => {
 
     const {
         handleChange,
@@ -14,7 +14,7 @@ export const Login = () => {
         initForm,
         values,
         errors,
-    } = formHandler(isLogin, validateLogin);
+    } = formHandler(isLogin, validateSignUp);
 
     function isLogin() {
 
@@ -23,11 +23,6 @@ export const Login = () => {
     return (
         <div className={"vh-100 d-flex align-items-center justify-content-center login"}>
             <div className="row m-0">
-                <div className={"col-md-6 mx-auto"}>
-                    <div className="d-flex align-items-center justify-content-center">
-                        <img className={"login-image img-responsive d-block align-items-center"} src={LoginImage} alt="" />
-                    </div>
-                </div>
                 <div className={"col-md-6 d-flex align-items-center justify-content-center"}>
                     <div className={"container-widget"}>
                         <div className="login-form-inner">
@@ -42,27 +37,37 @@ export const Login = () => {
                                 </div>
                                 {errors.username && <p className={"text-red"}>{errors.username}</p>}
                                 <div className="login-field">
+                                    <input className={`form-control ${errors.userEmail ? "border-red" : ""}`} type="mail"
+                                        name={"userEmail"} onChange={handleChange} placeholder="User Email" />
+                                </div>
+                                {errors.userEmail && <p className={"text-red"}>{errors.userEmail}</p>}
+                                <div className="login-field">
                                     <input className={`form-control ${errors.password ? "border-red" : ""}`} type="password"
                                         name={"password"} onChange={handleChange} placeholder="Password" />
                                 </div>
                                 {errors.password && <p className={"text-red"}>{errors.password}</p>}
-                                <div className="py-3 text-start">
+                                {/* <div className="py-3 text-start">
                                     <a href="" className="login-forgot">Forgot Password?</a>
-                                </div>
-                                <div className="login-btn d-grid">
+                                </div> */}
+                                <div className="login-btn d-grid pt-3">
                                     <button
                                         type="button"
                                         className={"btn btn-secondary tasks-dropdown-btn flex-end"}
                                         onClick={handleSubmit}
                                     >
-                                        Login
+                                        Sign Up
                                     </button>
                                 </div>
-                                <div className="py-3 text-start">
-                                    <a href="" className="login-forgot text-decoration-underline">Create an account</a>
+                                <div className="py-3 text-center">
+                                    <a href="" className="login-forgot text-decoration-underline">Already have an account</a>
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+                <div className={"col-md-6 mx-auto"}>
+                    <div className="d-flex align-items-center justify-content-center">
+                        <img className={"login-image img-responsive d-block align-items-center"} src={SignUpImage} alt="" />
                     </div>
                 </div>
             </div>
