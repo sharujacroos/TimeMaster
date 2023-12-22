@@ -110,6 +110,9 @@ export function validateTask(values) {
     if (!values.description) {
         errors.description = "Description is Required"
     }
+    if (!values.status) {
+        errors.status = "Status is Required"
+    }
 
     return errors;
 }

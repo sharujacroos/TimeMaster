@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Modal } from "react-bootstrap"
 import formHandler from "../../utils/FormHandler"
 import { validateTask } from "../../utils/validation"
+import axios from 'axios';
+import { toast } from "react-toastify";
+import { isEmpty } from 'underscore';
+
+
 
 export const TaskForm = (props) => {
     const [formSubmitted, setFormSubmitted] = useState(false)
+    const [isSubmit, setIsSubmit] = useState(false);
+
+
     const {
         handleChange,
         handleSubmit,
@@ -18,10 +26,92 @@ export const TaskForm = (props) => {
 
     }
 
-    function statusUpdate(status) {
+    // async function handleSubmit() {
+    //     try {
+    //         await axios.post("http://127.0.0.1:8000/task"),
 
+    //         );
+    //     } catch (error) {
+
+    //     }
+    // }
+
+    useEffect(() => {
+        if (!isSubmit || props.type !== "Add") {
+            return
+        }
+        axios.post(`http://127.0.0.1:8000/task`, values)
+            .then((res) => {
+                console.log(res.data)
+                props.update()
+                props.onHide();
+                toast.success(`Successfully Appointment Created`)
+            }).catch((err) => {
+                toast.error("Something went wrong")
+            }).finally(() => {
+                // dispatch(toggleLoader(false))
+                setIsSubmit(false);
+                resetForm()
+            })
+    }, [isSubmit]);
+
+    function resetForm() {
+        initForm({})
     }
 
+    useEffect(() => {
+        if (!isSubmit || props.type !== "Edit") {
+            return
+        }
+        // dispatch(toggleLoader(true))
+        axios.put(`http://127.0.0.1:8000/task`, values)
+            .then((res) => {
+                console.log(res.data)
+                toast.success(`Successfully Updated`)
+                props.update()
+            }).catch((err) => {
+                toast.error("Something went wrong")
+            }).finally(() => {
+                // dispatch(toggleLoader(false))
+                setIsSubmit(false);
+                resetForm()
+                props.onHide()
+            })
+    }, [isSubmit])
+
+    function stateTask() {
+        setIsSubmit(true)
+    }
+
+    useEffect(() => {
+        if (["View", "State"].includes(props.type) && !isEmpty(props.selectedTask)) {
+
+            initForm(props.selectedTask)
+        }
+    }, [props.type, props.selectedTask])
+
+    function statusUpdate(status) {
+        values.status = status
+        console.log(props.selectedTask)
+        console.log(props.selectedTask._id)
+
+            // dispatch(toggleLoader(true))
+            // axios.put(`${process.env.REACT_APP_HOST}/institute/${instituteId}/student/${studentId}/Appointment/${props.selectedAppointment._id}`, values)
+            // axios.put(`${process.env.REACT_APP_HOST}/institute/${instituteId}/marks/${props.selectedMarks._id}`, values)
+            .then((res) => {
+                console.log(res.data)
+                toast.success(`Successfully Updated`)
+                props.update()
+            }).catch((err) => {
+                toast.error("Something went wrong")
+            }).finally(() => {
+                // dispatch(toggleLoader(false))
+                setIsSubmit(false);
+                setIsSubmit(false)
+                resetForm()
+                props.onHide()
+            })
+    }
 
     return (
         <Modal
@@ -92,7 +182,7 @@ export const TaskForm = (props) => {
                                         <input id="startDate"
                                             className={`form-control ${errors.startDate ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
                                             onChange={handleChange}
-                                            name={"date"}
+                                            name={"startDate"}
                                             value={values.startDate || ""}
                                             type="date"
 
@@ -108,7 +198,7 @@ export const TaskForm = (props) => {
                                         <input id="startTime"
                                             className={`form-control  ${errors.startTime ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
                                             onChange={handleChange}
-                                            name={"time"}
+                                            name={"startTime"}
                                             value={values.startTime || ""}
                                             type="time"
 
@@ -123,7 +213,7 @@ export const TaskForm = (props) => {
                                         <input id="endDate"
                                             className={`form-control ${errors.endDate ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
                                             onChange={handleChange}
-                                            name={"date"}
+                                            name={"endDate"}
                                             value={values.endDate || ""}
                                             type="date"
 
@@ -139,7 +229,7 @@ export const TaskForm = (props) => {
                                         <input id="endTime"
                                             className={`form-control  ${errors.endTime ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
                                             onChange={handleChange}
-                                            name={"time"}
+                                            name={"endTime"}
                                             value={values.endTime || ""}
                                             type="time"
 
@@ -159,6 +249,25 @@ export const TaskForm = (props) => {
                                             aria-describedby="emailHelp"
                                             disabled={["View", "State"].includes(props.type)} />
                                         {errors.description && <p className={"text-red"}>{errors.description}</p>}
+                                    </div>
+                                </div>}
+
+                                {<div className={"col-md-12"}>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleInputEmail1"
+                                            className={`form-label ${["View", "State"].includes(props.type) ? " task-view-text " : "form-label"}`}>Status</label>
+                                        <select className={`form-control ${errors.status ? "border-red" : ""} ${["View", "State"].includes(props.type) ? " form-control:disabled " : ""} `}
+                                            onChange={handleChange}
+                                            value={values.status || ""}
+                                            name={"status"}
+                                            aria-label="Default select example"
+                                            disabled={["View", "State"].includes(props.type)}>
+                                            <option hidden>Select Status</option>
+                                            <option value="RUNNING">Running</option>
+                                            <option value="COMPLETED">Completed</option>
+                                            <option value="FAILED">Failed</option>
+                                        </select>
+                                        {errors.status && <p className={"text-red"}>{errors.status}</p>}
                                     </div>
                                 </div>}
 

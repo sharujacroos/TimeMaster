@@ -1,57 +1,62 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../../layout/layout'
 import FeatherIcon from 'feather-icons-react'
 import { TaskForm } from './taskForm'
+// import {toggleConfirmationDialog, toggleLoader} from "../../../redux/actions";
+import axios from 'axios'
+import {values, pick, filter, pluck} from "underscore";
 
 export const Tasks = () => {
   const [modalShow, setModalShow] = useState(false)
   const [modalType, setModalType] = useState("view")
-  const [selectedTask, setSelectedTask] = useState(null)
+  const [selectedTask, setSelectedTask] = useState({})
+  const [taskAllList, setTaskAllList] = useState([])
   const [deletedId, setDeletedId] = useState(null)
-  const [tasks, setTasks] = useState([
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Completed" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-    { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" }
-  ])
+  // const [tasks, setTasks] = useState([
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Completed" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
+  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" }
+  // ])
 
   const [tasksAllList, setTasksAllList] = useState([])
   const [tasksList, setTasksList] = useState([])
+  const [update, setUpdate] = useState(false);
 
   function handleSearch(e) {
-    // let val = e.target.value;
-    // if (val !== "") {
-    //     let res = filter(tasksAllList, function (item) { return values(pick(item, 'no', 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()); });
-    //     setTasksList(res);
-    //     console.log(res)
-    // } else {
-    //     setTasksList(tasksAllList);
-    // }
+    let val = e.target.value;
+    if (val !== "") {
+        let res = filter(tasksAllList, function (item) { return values(pick(item, 'no', 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()); });
+        setTasksList(res);
+        console.log(res)
+    } else {
+        setTasksList(tasksAllList);
+    }
   }
 
   function colorChange(status) {
@@ -59,13 +64,39 @@ export const Tasks = () => {
       case "RUNNING":
         return "bg-warning text-dark"
       case "COMPLETED":
-        return "bg-success text-dark"
-      // case "FAILED":
-      //   return "bg-danger text-white"
+        return "bg-success text-white"
+      case "FAILED":
+        return "bg-danger text-white"
       default:
         return ""
     }
   }
+
+  useEffect(() => {
+    // if (!confirmationDialog || !confirmationDialog.onSuccess || !deletedId) {
+    //   console.log("deleted")
+    //   return;
+    // }
+    console.log("deleted")
+    // dispatch(toggleLoader(true))
+
+    axios.delete(`http://127.0.0.1:8000/task`)
+      .then((res) => {
+        setUpdate(!update)
+        // toast.success(`Successfully Deleted`)
+
+      }).catch((err) => {
+        console.log(err)
+      }).finally(() => {
+        // dispatch(toggleLoader(false))
+        setDeletedId(null)
+      })
+  }, [])
+  // }, [confirmationDialog])
+
+  // const confirmationDialog = useSelector(state => {
+  //   return state.setting.confirmationDialog
+  // });
 
   function handleDelete() {
     // dispatch(toggleConfirmationDialog({
@@ -73,6 +104,15 @@ export const Tasks = () => {
     //     confirmationHeading: ('ARE YOU SURE YOU WANT TO DELETE THIS DETAILS'),
     //     confirmationDescription: ('THE DELETE ACTION WILL REMOVE THE THIS DETAILS')
     // }));
+  }
+
+  useEffect(() => {
+    (async () => await fetchData())()
+  }, []);
+
+  async function fetchData() {
+    const data = await axios.get("http://127.0.0.1:8000/task");
+    setTasksList(data.data);
   }
 
   return (
@@ -127,7 +167,7 @@ export const Tasks = () => {
                 </tr>
               </thead>
               <tbody>
-                {tasks.map((tasks) => (
+                {tasksList.map((tasks) => (
                   <tr>
                     <th scope="row">{1}</th>
                     <td>{tasks.taskName}</td>
@@ -151,6 +191,9 @@ export const Tasks = () => {
                       <FeatherIcon className={"action-icons"} icon={"eye"}
                         onClick={() => {
                           setModalType("View");
+                          let temp = { ...tasks }
+                          temp.date = tasks.date?.slice(0, 10)
+                          setSelectedTask(temp)
                           // setTasks(data)
                           setModalShow(true)
                         }} />
@@ -158,6 +201,9 @@ export const Tasks = () => {
                         onClick={() => {
                           // setTasks(data)
                           setModalType("Edit");
+                          let temp = { ...tasks }
+                          temp.date = tasks.date?.slice(0, 10)
+                          setSelectedTask(temp)
                           setModalShow(true)
                         }} />
                       <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={handleDelete} />
@@ -174,6 +220,8 @@ export const Tasks = () => {
       <TaskForm
         show={modalShow}
         type={modalType}
+        selectedTask={selectedTask}
+        update={() => setUpdate(!update)}
         onHide={() => setModalShow(false)}
       />
     </Layout >
