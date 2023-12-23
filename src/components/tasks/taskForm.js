@@ -7,12 +7,10 @@ import { toast } from "react-toastify";
 import { isEmpty } from 'underscore';
 
 
-
 export const TaskForm = (props) => {
     const [formSubmitted, setFormSubmitted] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false);
-
-
+    const [tasksList, setTasksList] = useState([]);
     const {
         handleChange,
         handleSubmit,
@@ -21,10 +19,6 @@ export const TaskForm = (props) => {
         values,
         errors,
     } = formHandler(stateTask, validateTask);
-
-    function stateTask() {
-
-    }
 
     // async function handleSubmit() {
     //     try {
@@ -35,6 +29,25 @@ export const TaskForm = (props) => {
 
     //     }
     // }
+
+    useEffect(() => {
+        // dispatch(toggleLoader(true))
+        axios.get(`http://127.0.0.1:8000/task`)
+            .then((res) => {
+                setTasksList(res.data)
+            }).catch((err) => {
+                console.log(err)
+            }).finally(() => {
+                // dispatch(toggleLoader(false))
+            })
+    }, [])
+
+    useEffect(() => {
+        if (["View", "State"].includes(props.type) && !isEmpty(props.selectedTask)) {
+
+            initForm(props.selectedTask)
+        }
+    }, [props.type, props.selectedTask])
 
     useEffect(() => {
         if (!isSubmit || props.type !== "Add") {
@@ -64,7 +77,7 @@ export const TaskForm = (props) => {
             return
         }
         // dispatch(toggleLoader(true))
-        axios.put(`http://127.0.0.1:8000/task`, values)
+        axios.put(`http://127.0.0.1:8000/task/${values._id}`, values)
             .then((res) => {
                 console.log(res.data)
                 toast.success(`Successfully Updated`)
@@ -83,21 +96,13 @@ export const TaskForm = (props) => {
         setIsSubmit(true)
     }
 
-    useEffect(() => {
-        if (["View", "State"].includes(props.type) && !isEmpty(props.selectedTask)) {
-
-            initForm(props.selectedTask)
-        }
-    }, [props.type, props.selectedTask])
-
     function statusUpdate(status) {
         values.status = status
         console.log(props.selectedTask)
         console.log(props.selectedTask._id)
 
-            // dispatch(toggleLoader(true))
-            // axios.put(`${process.env.REACT_APP_HOST}/institute/${instituteId}/student/${studentId}/Appointment/${props.selectedAppointment._id}`, values)
-            // axios.put(`${process.env.REACT_APP_HOST}/institute/${instituteId}/marks/${props.selectedMarks._id}`, values)
+        // dispatch(toggleLoader(true))
+        axios.put(`http://127.0.0.1:8000/task/${values._id}`, values)
             .then((res) => {
                 console.log(res.data)
                 toast.success(`Successfully Updated`)
@@ -106,7 +111,6 @@ export const TaskForm = (props) => {
                 toast.error("Something went wrong")
             }).finally(() => {
                 // dispatch(toggleLoader(false))
-                setIsSubmit(false);
                 setIsSubmit(false)
                 resetForm()
                 props.onHide()

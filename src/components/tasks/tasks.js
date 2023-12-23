@@ -4,12 +4,12 @@ import FeatherIcon from 'feather-icons-react'
 import { TaskForm } from './taskForm'
 // import {toggleConfirmationDialog, toggleLoader} from "../../../redux/actions";
 import axios from 'axios'
-import {values, pick, filter, pluck} from "underscore";
+import { values, pick, filter, pluck } from "underscore";
 
 export const Tasks = () => {
   const [modalShow, setModalShow] = useState(false)
   const [modalType, setModalType] = useState("view")
-  const [selectedTask, setSelectedTask] = useState({})
+  const [selectedTask, setSelectedTask] = useState(null)
   const [taskAllList, setTaskAllList] = useState([])
   const [deletedId, setDeletedId] = useState(null)
   // const [tasks, setTasks] = useState([
@@ -51,11 +51,11 @@ export const Tasks = () => {
   function handleSearch(e) {
     let val = e.target.value;
     if (val !== "") {
-        let res = filter(tasksAllList, function (item) { return values(pick(item, 'no', 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()); });
-        setTasksList(res);
-        console.log(res)
+      let res = filter(tasksAllList, function (item) { return values(pick(item, 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()); });
+      setTasksList(res);
+      console.log(res)
     } else {
-        setTasksList(tasksAllList);
+      setTasksList(tasksAllList);
     }
   }
 
@@ -72,9 +72,18 @@ export const Tasks = () => {
     }
   }
 
+  function handleDelete(id) {
+    // dispatch(toggleConfirmationDialog({
+    //     isVisible: true,
+    //     confirmationHeading: ('ARE YOU SURE YOU WANT TO DELETE TASK DATA'),
+    //     confirmationDescription: ('THE DELETE ACTION WILL REMOVE THE TASK DETAILS')
+    // }));
+    setDeletedId(id)
+  }
+
   useEffect(() => {
     // if (!confirmationDialog || !confirmationDialog.onSuccess || !deletedId) {
-    //   console.log("deleted")
+    console.log("deleted")
     //   return;
     // }
     console.log("deleted")
@@ -97,14 +106,6 @@ export const Tasks = () => {
   // const confirmationDialog = useSelector(state => {
   //   return state.setting.confirmationDialog
   // });
-
-  function handleDelete() {
-    // dispatch(toggleConfirmationDialog({
-    //     isVisible: true,
-    //     confirmationHeading: ('ARE YOU SURE YOU WANT TO DELETE THIS DETAILS'),
-    //     confirmationDescription: ('THE DELETE ACTION WILL REMOVE THE THIS DETAILS')
-    // }));
-  }
 
   useEffect(() => {
     (async () => await fetchData())()
@@ -200,13 +201,13 @@ export const Tasks = () => {
                       <FeatherIcon className={"action-icons"} icon={"edit"}
                         onClick={() => {
                           // setTasks(data)
+                          // let temp = { ...tasks }
+                          // temp.date = tasks.date?.slice(0, 10)
                           setModalType("Edit");
-                          let temp = { ...tasks }
-                          temp.date = tasks.date?.slice(0, 10)
-                          setSelectedTask(temp)
                           setModalShow(true)
+                          setSelectedTask(tasks)
                         }} />
-                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={handleDelete} />
+                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={() => handleDelete(tasks._id)} />
                     </td>
                   </tr>
                 ))}
@@ -222,7 +223,10 @@ export const Tasks = () => {
         type={modalType}
         selectedTask={selectedTask}
         update={() => setUpdate(!update)}
-        onHide={() => setModalShow(false)}
+        onHide={() => {
+          setModalShow(false)
+          setSelectedTask(null)
+        }}
       />
     </Layout >
   )
