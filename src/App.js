@@ -10,13 +10,18 @@ import { Settings } from './components/settings/settings';
 import { Login } from './components/login/login';
 import { SignUp } from './components/login/signup';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import ConfirmationDialog from "./components/utils-components/confirmation-dialog";
+import Loader from "./components/utils-components/loader";
 // import 'react-datetime-picker/dist/DateTimePicker.css';
-// import 'react-toastify/dist/ReactToastify.css'
 
 
 function App() {
   return (
     <div>
+      <Loader/>
+      <ConfirmationDialog/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />
@@ -26,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+      <ToastContainer/>
     </div>
   );
 }

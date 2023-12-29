@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import homeimage from '../../assets/home-image.png'
 import Chart from "react-apexcharts"
 import FeatherIcon from 'feather-icons-react'
-
+import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
 
 export const Home = () => {
   const [state, setState] = useState({

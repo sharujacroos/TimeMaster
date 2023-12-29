@@ -6,6 +6,8 @@ import FeatherIcon from "feather-icons-react"
 import { DtPicker } from 'react-calendar-datetime-picker'
 import { validateEvent } from '../../utils/validation'
 import formHandler from "../../utils/FormHandler"
+import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
 
 const localizer = momentLocalizer(moment)
 
@@ -129,8 +131,8 @@ export const Calender = () => {
     console.log(data)
       // dispatch(toggleLoader(true))
       // axios.post(`${process.env.REACT_APP_HOST}/institute/${getInstituteId()}/calender`, data)
-      // .then(() => toast.success("Successfully Added"))
-      // .catch((err) => toast.error("Something went wrong"))
+      .then(() => toast.success("Successfully Added"))
+      .catch((err) => toast.error("Something went wrong"))
       .finally(() => {
         // dispatch(toggleLoader(false))
         setIsSubmitted(false)

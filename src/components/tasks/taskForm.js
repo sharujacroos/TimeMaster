@@ -5,6 +5,8 @@ import { validateTask } from "../../utils/validation"
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { isEmpty } from 'underscore';
+import {useDispatch} from "react-redux";
+import {toggleConfirmationDialog, toggleLoader} from "../../redux/actions";
 
 
 export const TaskForm = (props) => {
@@ -58,7 +60,7 @@ export const TaskForm = (props) => {
                 console.log(res.data)
                 props.update()
                 props.onHide();
-                toast.success(`Successfully Appointment Created`)
+                toast.success(`Successfully Task Created`)
             }).catch((err) => {
                 toast.error("Something went wrong")
             }).finally(() => {
@@ -169,12 +171,11 @@ export const TaskForm = (props) => {
                                             aria-label="Default select example"
                                             disabled={["View", "State"].includes(props.type)}>
                                             <option hidden>Select Category</option>
-                                            <option value="Category01">Category 01</option>
-                                            <option value="Category02">Category 02</option>
-                                            <option value="Category03">Category 03</option>
-                                            <option value="Category04">Category 04</option>
-                                            <option value="Category05">Category 05</option>
-                                            <option value="Category06">Category 06</option>
+                                            <option value="Work">Work</option>
+                                            <option value="Personal">Personal</option>
+                                            <option value="Work">Work</option>
+                                            <option value="Entertainment">Entertainment</option>
+                                            <option value="Miscellaneous">Miscellaneous</option>
                                         </select>
                                         {errors.category && <p className={"text-red"}>{errors.category}</p>}
                                     </div>

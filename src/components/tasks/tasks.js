@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../../layout/layout'
 import FeatherIcon from 'feather-icons-react'
 import { TaskForm } from './taskForm'
-// import {toggleConfirmationDialog, toggleLoader} from "../../../redux/actions";
+import { toggleConfirmationDialog, toggleLoader } from "../../redux/actions";
 import axios from 'axios'
 import { values, pick, filter, pluck } from "underscore";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Tasks = () => {
   const [modalShow, setModalShow] = useState(false)
@@ -47,6 +49,7 @@ export const Tasks = () => {
   const [tasksAllList, setTasksAllList] = useState([])
   const [tasksList, setTasksList] = useState([])
   const [update, setUpdate] = useState(false);
+  const dispatch = useDispatch();
 
   function handleSearch(e) {
     let val = e.target.value;
@@ -73,26 +76,30 @@ export const Tasks = () => {
   }
 
   function handleDelete(id) {
-    // dispatch(toggleConfirmationDialog({
-    //     isVisible: true,
-    //     confirmationHeading: ('ARE YOU SURE YOU WANT TO DELETE TASK DATA'),
-    //     confirmationDescription: ('THE DELETE ACTION WILL REMOVE THE TASK DETAILS')
-    // }));
+    dispatch(toggleConfirmationDialog({
+      isVisible: true,
+      confirmationHeading: ('ARE YOU SURE YOU WANT TO DELETE TASK DATA'),
+      confirmationDescription: ('THE DELETE ACTION WILL REMOVE THE TASK DETAILS')
+    }));
     setDeletedId(id)
   }
 
+  const confirmationDialog = useSelector(state => {
+    return state.setting.confirmationDialog
+  });
+
   useEffect(() => {
-    // if (!confirmationDialog || !confirmationDialog.onSuccess || !deletedId) {
+    if (!confirmationDialog || !confirmationDialog.onSuccess || !deletedId) {
+      console.log("deleted")
+      return;
+    }
     console.log("deleted")
-    //   return;
-    // }
-    console.log("deleted")
-    // dispatch(toggleLoader(true))
+    dispatch(toggleLoader(true))
 
     axios.delete(`http://127.0.0.1:8000/task`)
       .then((res) => {
         setUpdate(!update)
-        // toast.success(`Successfully Deleted`)
+        toast.success(`Successfully Deleted`)
 
       }).catch((err) => {
         console.log(err)
@@ -100,12 +107,7 @@ export const Tasks = () => {
         // dispatch(toggleLoader(false))
         setDeletedId(null)
       })
-  }, [])
-  // }, [confirmationDialog])
-
-  // const confirmationDialog = useSelector(state => {
-  //   return state.setting.confirmationDialog
-  // });
+  }, [confirmationDialog])
 
   useEffect(() => {
     (async () => await fetchData())()
@@ -137,11 +139,11 @@ export const Tasks = () => {
                   Category {/* Change this text to your desired label */}
                 </button>
                 <ul className={"dropdown-menu dropdown-menu-dark"}>
-                  <li><a className={"dropdown-item"} href="#">Category 01</a></li>
-                  <li><a className={"dropdown-item"} href="#">Category 02</a></li>
-                  <li><a className={"dropdown-item"} href="#">Category 03</a></li>
-                  <li><a className={"dropdown-item"} href="#">Category 04</a></li>
-                  <li><a className={"dropdown-item"} href="#">Category 05</a></li>
+                  <li><a className={"dropdown-item"} href="#">Work</a></li>
+                  <li><a className={"dropdown-item"} href="#">Personal</a></li>
+                  <li><a className={"dropdown-item"} href="#">Health</a></li>
+                  <li><a className={"dropdown-item"} href="#">Entertainment</a></li>
+                  <li><a className={"dropdown-item"} href="#">Miscellaneous</a></li>
                 </ul>
               </div>
               <button type="button" className={"btn btn-secondary tasks-dropdown-btn"}
