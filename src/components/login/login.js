@@ -6,9 +6,11 @@ import { validateLogin } from "../../utils/validation"
 import formHandler from "../../utils/FormHandler"
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Login = () => {
 
+    const navigate = useNavigate();
     const {
         handleChange,
         handleSubmit,
@@ -61,7 +63,10 @@ export const Login = () => {
                                     </button>
                                 </div>
                                 <div className="py-3 text-start">
-                                    <a href="" className="login-forgot text-decoration-underline">Create an account</a>
+                                    <Link to="/signup" className="login-forgot text-decoration-underline">
+                                        Create an account
+                                    </Link>
+                                    {/* <a href="" className="login-forgot text-decoration-underline">Create an account</a> */}
                                 </div>
                             </form>
                         </div>
