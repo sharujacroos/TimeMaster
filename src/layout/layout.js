@@ -9,7 +9,7 @@ import Logo from "../assets/logo.png"
 // import Logo from "../assets/eduzon.svg"
 import SideClose from "../assets/carbon_side-panel-close.svg";
 import { useDispatch, useSelector } from 'react-redux'
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { changeToggle, setUserDetail, toggleLoader } from "../redux/actions";
 
 import {

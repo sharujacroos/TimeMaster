@@ -5,11 +5,12 @@ import { validateTask } from "../../utils/validation"
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { isEmpty } from 'underscore';
-import {useDispatch} from "react-redux";
-import {toggleConfirmationDialog, toggleLoader} from "../../redux/actions";
+import { useDispatch } from "react-redux";
+import { toggleConfirmationDialog, toggleLoader } from "../../redux/actions";
 
 
 export const TaskForm = (props) => {
+    const dispatch = useDispatch();
     const [formSubmitted, setFormSubmitted] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false);
     const [tasksList, setTasksList] = useState([]);
@@ -33,14 +34,14 @@ export const TaskForm = (props) => {
     // }
 
     useEffect(() => {
-        // dispatch(toggleLoader(true))
+        dispatch(toggleLoader(true))
         axios.get(`http://127.0.0.1:8000/task`)
             .then((res) => {
                 setTasksList(res.data)
             }).catch((err) => {
                 console.log(err)
             }).finally(() => {
-                // dispatch(toggleLoader(false))
+                dispatch(toggleLoader(false))
             })
     }, [])
 
@@ -52,9 +53,22 @@ export const TaskForm = (props) => {
     }, [props.type, props.selectedTask])
 
     useEffect(() => {
+        dispatch(toggleLoader(true))
+        axios.get(`http://127.0.0.1:8000/task`)
+            .then((res) => {
+                setTasksList(res.data)
+            }).catch((err) => {
+                console.log(err)
+            }).finally(() => {
+                dispatch(toggleLoader(false))
+            })
+    }, [])
+
+    useEffect(() => {
         if (!isSubmit || props.type !== "Add") {
             return
         }
+        dispatch(toggleLoader(true))
         axios.post(`http://127.0.0.1:8000/task`, values)
             .then((res) => {
                 console.log(res.data)
@@ -64,7 +78,7 @@ export const TaskForm = (props) => {
             }).catch((err) => {
                 toast.error("Something went wrong")
             }).finally(() => {
-                // dispatch(toggleLoader(false))
+                dispatch(toggleLoader(false))
                 setIsSubmit(false);
                 resetForm()
             })
@@ -78,16 +92,16 @@ export const TaskForm = (props) => {
         if (!isSubmit || props.type !== "Edit") {
             return
         }
-        // dispatch(toggleLoader(true))
-        axios.put(`http://127.0.0.1:8000/task/${values._id}`, values)
+        dispatch(toggleLoader(true))
+        axios.put(`http://127.0.0.1:8000/task`, values)
             .then((res) => {
                 console.log(res.data)
-                toast.success(`Successfully Updated`)
+                toast.success(`Successfully Task Updated`)
                 props.update()
             }).catch((err) => {
                 toast.error("Something went wrong")
             }).finally(() => {
-                // dispatch(toggleLoader(false))
+                dispatch(toggleLoader(false))
                 setIsSubmit(false);
                 resetForm()
                 props.onHide()
@@ -103,8 +117,8 @@ export const TaskForm = (props) => {
         console.log(props.selectedTask)
         console.log(props.selectedTask._id)
 
-        // dispatch(toggleLoader(true))
-        axios.put(`http://127.0.0.1:8000/task/${values._id}`, values)
+        dispatch(toggleLoader(true))
+        axios.put(`http://127.0.0.1:8000/task`, values)
             .then((res) => {
                 console.log(res.data)
                 toast.success(`Successfully Updated`)
@@ -112,7 +126,7 @@ export const TaskForm = (props) => {
             }).catch((err) => {
                 toast.error("Something went wrong")
             }).finally(() => {
-                // dispatch(toggleLoader(false))
+                dispatch(toggleLoader(false))
                 setIsSubmit(false)
                 resetForm()
                 props.onHide()
@@ -173,7 +187,7 @@ export const TaskForm = (props) => {
                                             <option hidden>Select Category</option>
                                             <option value="Work">Work</option>
                                             <option value="Personal">Personal</option>
-                                            <option value="Work">Work</option>
+                                            <option value="Health">Health</option>
                                             <option value="Entertainment">Entertainment</option>
                                             <option value="Miscellaneous">Miscellaneous</option>
                                         </select>

@@ -1,6 +1,7 @@
 import React from "react";
-import {useSelector} from "react-redux";
-import {PropagateLoader} from "react-spinners";
+import { useSelector } from "react-redux";
+import { ClockLoader } from "react-spinners";
+import { SpinnerCircular } from 'spinners-react';
 
 
 const Loader = (props) => {
@@ -12,7 +13,7 @@ const Loader = (props) => {
     return (
 
         <div hidden={!isLoading}
-             className={(!isLoading && !props.load) ? "loader-model-bg-hidden" : "loader-model-bg-visible"}>
+            className={(!isLoading && !props.load) ? "loader-model-bg-hidden" : "loader-model-bg-visible"}>
             <div className="sa-modal-bg-inner">
                 <div className="loader-model">
                     <div className="container">
@@ -20,10 +21,12 @@ const Loader = (props) => {
                             <div className="sa-modal-bg-inner">
                                 <div className="container">
                                     <div className="sweet-loading d-flex justify-content-center">
-                                        <PropagateLoader
-                                            size={20}
-                                            color={"#22C687 "}
-                                            loading={true}
+                                        <SpinnerCircular
+                                            size={90}
+                                            thickness={180}
+                                            speed={100}
+                                            color="rgba(138, 57, 172, 1)"
+                                            secondaryColor="rgba(124, 57, 172, 0.37)"
                                         />
                                     </div>
                                 </div>

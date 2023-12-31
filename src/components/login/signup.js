@@ -4,8 +4,8 @@ import SignUpImage from "../../assets/signup.svg"
 import Logo from "../../assets/logo.png"
 import { validateSignUp } from "../../utils/validation"
 import formHandler from "../../utils/FormHandler"
-import {toast} from "react-toastify";
-import {useDispatch} from "react-redux";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 export const SignUp = () => {
 

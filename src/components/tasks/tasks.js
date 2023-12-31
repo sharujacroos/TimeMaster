@@ -4,15 +4,18 @@ import FeatherIcon from 'feather-icons-react'
 import { TaskForm } from './taskForm'
 import { toggleConfirmationDialog, toggleLoader } from "../../redux/actions";
 import axios from 'axios'
-import { values, pick, filter, pluck } from "underscore";
+import { values, pick, filter, pluck, uniq } from "underscore";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { validateTask } from '../../utils/validation';
+import formHandler from "../../utils/FormHandler";
+import { filterDataByKey } from "../../utils/utils";
 
 export const Tasks = () => {
   const [modalShow, setModalShow] = useState(false)
   const [modalType, setModalType] = useState("view")
   const [selectedTask, setSelectedTask] = useState(null)
-  const [taskAllList, setTaskAllList] = useState([])
+  // const [taskAllList, setTaskAllList] = useState([])
   const [deletedId, setDeletedId] = useState(null)
   // const [tasks, setTasks] = useState([
   //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
@@ -50,6 +53,17 @@ export const Tasks = () => {
   const [tasksList, setTasksList] = useState([])
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
+  const {
+    handleChange,
+    handleSubmit,
+    setValue,
+    values,
+    errors,
+  } = formHandler(isLoading, validateTask);
+
+  function isLoading() {
+    console.log("All are done")
+  }
 
   function handleSearch(e) {
     let val = e.target.value;
@@ -100,11 +114,10 @@ export const Tasks = () => {
       .then((res) => {
         setUpdate(!update)
         toast.success(`Successfully Deleted`)
-
       }).catch((err) => {
         console.log(err)
       }).finally(() => {
-        // dispatch(toggleLoader(false))
+        dispatch(toggleLoader(false))
         setDeletedId(null)
       })
   }, [confirmationDialog])
@@ -139,11 +152,14 @@ export const Tasks = () => {
                   Category {/* Change this text to your desired label */}
                 </button>
                 <ul className={"dropdown-menu dropdown-menu-dark"}>
-                  <li><a className={"dropdown-item"} href="#">Work</a></li>
+                  {/* <li><a className={"dropdown-item"} href="#">Work</a></li>
                   <li><a className={"dropdown-item"} href="#">Personal</a></li>
                   <li><a className={"dropdown-item"} href="#">Health</a></li>
                   <li><a className={"dropdown-item"} href="#">Entertainment</a></li>
-                  <li><a className={"dropdown-item"} href="#">Miscellaneous</a></li>
+                  <li><a className={"dropdown-item"} href="#">Miscellaneous</a></li> */}
+                  <li><a className={"dropdown-item cursor-pointer"} onClick={() => setTasksList(filterDataByKey(tasksAllList, "All"))}>All</a></li>
+                  {uniq(pluck(tasksAllList, "category")).map((item, index) => <li><a className={"dropdown-item cursor-pointer"} key={index + item} onClick={() => setTasksList(filterDataByKey(tasksAllList, item))}>{item.replace("_", " ")}</a></li>)}
+
                 </ul>
               </div>
               <button type="button" className={"btn btn-secondary tasks-dropdown-btn"}
@@ -170,32 +186,32 @@ export const Tasks = () => {
                 </tr>
               </thead>
               <tbody>
-                {tasksList.map((tasks) => (
+                {tasksList.map((data, index) => (
                   <tr>
-                    <th scope="row">{1}</th>
-                    <td>{tasks.taskName}</td>
-                    <td>{tasks.startDate}</td>
-                    <td>{tasks.endDate}</td>
-                    <td>{tasks.category}</td>
-                    {/* <td>{tasks.status}</td> */}
+                    <th scope="row">{index + 1}</th>
+                    <td>{data.taskName}</td>
+                    <td>{data.startDate}</td>
+                    <td>{data.endDate}</td>
+                    <td>{data.category}</td>
+                    {/* <td>{data.status}</td> */}
                     <td>
-                      <div className={"task_state " + (colorChange(tasks.status))}
+                      <div className={"task_state " + (colorChange(data.status))}
                         onClick={() => {
-                          let temp = { ...tasks }
-                          temp.date = tasks.date?.slice(0, 10)
+                          let temp = { ...data }
+                          temp.date = data.date?.slice(0, 10)
                           setSelectedTask(temp)
                           setModalShow(true)
                           setModalType("State");
                         }
-                        }>{tasks.status}</div>
+                        }>{data.status}</div>
 
                     </td>
                     <td>
                       <FeatherIcon className={"action-icons"} icon={"eye"}
                         onClick={() => {
                           setModalType("View");
-                          let temp = { ...tasks }
-                          temp.date = tasks.date?.slice(0, 10)
+                          let temp = { ...data }
+                          temp.date = data.date?.slice(0, 10)
                           setSelectedTask(temp)
                           // setTasks(data)
                           setModalShow(true)
@@ -203,19 +219,19 @@ export const Tasks = () => {
                       <FeatherIcon className={"action-icons"} icon={"edit"}
                         onClick={() => {
                           // setTasks(data)
-                          // let temp = { ...tasks }
-                          // temp.date = tasks.date?.slice(0, 10)
+                          // let temp = { ...data }
+                          // temp.date = data.date?.slice(0, 10)
                           setModalType("Edit");
                           setModalShow(true)
-                          setSelectedTask(tasks)
+                          setSelectedTask(data)
                         }} />
-                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={() => handleDelete(tasks._id)} />
+                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={() => handleDelete(data._id)} />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {/* {tasksList.length === 0 && <div className={"text-center py-5 fw-bold"}>No Task Data Found, Please Add...</div>} */}
+            {tasksList.length === 0 && <div className={"text-center py-5 fw-bold customFont"}>No task data found. Please add...</div>}
           </div>
         </div>
       </div>

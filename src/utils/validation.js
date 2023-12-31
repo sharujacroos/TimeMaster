@@ -134,3 +134,18 @@ export function validateEvent(values) {
     return errors;
 }
 
+export function validateTaskPasswordSettings(values) {
+    console.log(values)
+    let errors = {};
+
+
+    if (!values.newPassword) {
+        errors.newPassword = "Please enter new password"
+    }
+    if (!values.confirmPassword) {
+        errors.confirmPassword = "Please enter current password"
+    } else if (values.newPassword !== values.confirmPassword) {
+        errors.confirmPassword = "Password does not match"
+    }
+    return errors;
+}

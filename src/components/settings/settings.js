@@ -3,8 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { getUserId } from "../../utils/Authentication";
 import formHandler from "../../utils/FormHandler";
 import { validateTaskSetting } from "../../utils/validation";
-import {toast} from "react-toastify";
-import {useDispatch} from "react-redux";
+import { setUserDetail, toggleLoader } from "../../redux/actions";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import PasswordSetting from "../password-setting/password-setting";
+// import { getUserId } from "../../utils/Authentication";
 
 export const Settings = () => {
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -16,12 +20,49 @@ export const Settings = () => {
         values,
         errors,
     } = formHandler(taskSetting, validateTaskSetting);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [userData, setUserData] = useState({})
 
     function taskSetting() {
         setFormSubmitted(true)
     }
+
+    useEffect(() => {
+        dispatch(toggleLoader(true))
+        axios.get('http://127.0.0.1:8000/task/user')
+            .then((res) => {
+                // setUserData(res.data.filter((item) => item._id === getUserId())[0])
+            }).catch((err) => {
+                console.log(err)
+            }).finally(() => {
+                dispatch(toggleLoader(false))
+            })
+    }, [])
+
+    useEffect(() => {
+        initForm(userData);
+    }, [userData]);
+
+
+    useEffect(() => {
+        if (!formSubmitted) {
+            return
+        }
+        dispatch(toggleLoader(true))
+        axios.put('http://127.0.0.1:8000/task/user', values)
+            .then((res) => {
+                localStorage.setItem("NAME", res.data.name)
+                dispatch(setUserDetail(res.data))
+                toast.success("Profile Updated Successfully")
+            }).catch((err) => {
+                toast.error("Something went wrong")
+                console.log(err)
+            }).finally(() => {
+                dispatch(toggleLoader(false))
+                setFormSubmitted(false)
+            })
+
+    }, [formSubmitted])
 
     return (
         <Layout>
@@ -97,6 +138,7 @@ export const Settings = () => {
 
                         </form>
                     </div>
+                    <PasswordSetting />
                 </div>
             </div>
         </Layout>

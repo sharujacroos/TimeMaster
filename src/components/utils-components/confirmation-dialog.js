@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import FeatherIcon from "feather-icons-react";
 import FormHandler from "../../utils/FormHandler";
 
-import {toggleConfirmationDialog} from "../../redux/actions";
-import {validateConfirmationDialog, validateConfirmationDialogNoValidation} from "../../utils/validation";
+import { toggleConfirmationDialog } from "../../redux/actions";
+import { validateConfirmationDialog, validateConfirmationDialogNoValidation } from "../../utils/validation";
 
 
 const ConfirmationDialog = () => {
@@ -29,7 +29,7 @@ const ConfirmationDialog = () => {
 
 
   function hideDialog() {
-    dispatch(toggleConfirmationDialog({isVisible: false}));
+    dispatch(toggleConfirmationDialog({ isVisible: false }));
   }
 
   function onConfirm() {
@@ -53,11 +53,11 @@ const ConfirmationDialog = () => {
 
   function confirmationSuccess() {
     if (confirmationDialog && confirmationDialog.showReasonField) {
-      dispatch(toggleConfirmationDialog({isVisible: false, onSuccess: true, reason: values.reason}));
+      dispatch(toggleConfirmationDialog({ isVisible: false, onSuccess: true, reason: values.reason }));
     } else if (confirmationDialog.multipleDropDwn) {
-      dispatch(toggleConfirmationDialog({isVisible: false, onSuccess: true, selectedValues: multiSelectValues}));
+      dispatch(toggleConfirmationDialog({ isVisible: false, onSuccess: true, selectedValues: multiSelectValues }));
     } else {
-      dispatch(toggleConfirmationDialog({isVisible: false, onSuccess: true}));
+      dispatch(toggleConfirmationDialog({ isVisible: false, onSuccess: true }));
     }
   }
 
@@ -69,7 +69,7 @@ const ConfirmationDialog = () => {
           <div className="sa-popup-header">
             <span className={'sa-model-heading'}>{confirmationDialog.confirmationMainHeading || "CONFIRMATION"}</span>
             <div className="sa-popup-close-icon" onClick={hideDialog}><FeatherIcon className={"sa-modal-close-icon"}
-                                                                                   icon={"x"}/>
+              icon={"x"} />
             </div>
           </div>
           <div className="sa-modal-content p-l-16 pr-4">
@@ -82,7 +82,7 @@ const ConfirmationDialog = () => {
           {(confirmationDialog.type && confirmationDialog.type == "request") ?
             (<div className="sa-popup-btn mb-4">
               <button type={"button"} className="sa-popup-secondary-btn-style sa-popup-cancel-btn-style"
-                      onClick={hideDialog}>{"Cancel"}
+                onClick={hideDialog}>{"Cancel"}
               </button>
               <button className="sa-popup-secondary-btn-style btn-sa-danger">{"Ok"}</button>
             </div>) :
@@ -110,10 +110,9 @@ const ConfirmationDialog = () => {
                 </div>
               }
 
-
-              <div className="sa-popup-btn mb-3" style={{paddingTop: 16}}>
+              <div className="sa-popup-btn mb-3" style={{ paddingTop: 16 }}>
                 <button className="sa-popup-secondary-btn-style sa-popup-cancel-btn-style" type={"button"}
-                        onClick={hideDialog}>{"Cancel"}</button>
+                  onClick={hideDialog}>{"Cancel"}</button>
                 <button
                   className={confirmationDialog.successButtonClass ? "btn w-120p " + confirmationDialog.successButtonClass : "sa-popup-secondary-btn-style btn-sa-danger w-120p"}
                 >{confirmationDialog.successButtonText || "DELETE"}</button>

@@ -239,7 +239,7 @@
 }
 
 .default-container {
-  max-height: calc(100vh);
+  max-height: calc(110vh);
   border: 0.75px solid rgba(63, 68, 81, .12156862745098039);
   background-color: #fff;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -362,6 +362,10 @@
   background-color: #ac37e738;
 }
 
+.customFont {
+  color: #a32cde;
+  font: normal normal 600 16px/25px "Poppins", sans-serif;
+}
 
 @media (max-width: 768px) {
   .table-container {
@@ -388,6 +392,16 @@
 }
 
 /* Calender */
+
+.react-calendar-datetime-picker .input-picker .input-picker--input {
+  background: #fff !important;
+  border: 0.75px solid rgba(63, 68, 81, .12156862745098039);
+  border-radius: 4px !important;
+  opacity: 1 !important;
+  color: #868daa !important;
+  height: 36px !important;
+  text-align: left !important;
+}
 
 .calender-container {
   display: flex;
@@ -572,6 +586,11 @@
   padding: 24px;
 }
 
+.settings-form-text {
+  font-family: "Public Sans", sans-serif;
+}
+
+
 /* Login */
 
 .login {
@@ -626,7 +645,7 @@
     padding: 3rem;
   }
 
-  .login{
+  .login {
     height: 100% !important;
   }
 }
@@ -739,7 +758,7 @@
 }
 
 .sa-model-heading {
-  font: normal normal normal 30px/30px  "Poppins", sans-serif;
+  font: normal normal normal 30px/30px "Poppins", sans-serif;
   font-weight: 600;
   color: #1D283D;
   margin-left: 16px;
@@ -817,20 +836,20 @@
 
 @media (max-width: 320px) {
   .sa-popup-btn {
-      text-align: center;
-      display: flex;
-      flex-direction: column-reverse;
-      margin-left: 16px !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: 16px !important;
   }
 
   .sa-popup-secondary-btn-style {
-      width: 100%;
+    width: 100%;
   }
 
   .sa-popup-btn {
-      text-align: center;
-      display: flex;
-      flex-direction: column-reverse;
-      margin-left: 16px !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: 16px !important;
   }
 }

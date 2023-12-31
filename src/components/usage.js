@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from "../layout/layout";
-import {toggleConfirmationDialog} from "../redux/actions";
-import {useDispatch} from "react-redux";
+import { toggleConfirmationDialog } from "../redux/actions";
+import { useDispatch } from "react-redux";
 import 'c3/c3.css';
 import C3Chart from "react-c3js";
 import * as d3 from "d3";
@@ -37,15 +37,15 @@ function Usage(props) {
 
     const data = {
         columns: [
-            ["Marks",40, 50, 70, 90, 80, 50],
-            ["Date","2023-08-09", "2023-08-12", "2023-08-15", "2023-08-17", "2023-08-20", "2023-08-25"]
+            ["Marks", 40, 50, 70, 90, 80, 50],
+            ["Date", "2023-08-09", "2023-08-12", "2023-08-15", "2023-08-17", "2023-08-20", "2023-08-25"]
         ]
     };
 
     function drawGraph() {
         //Here You want data below two line
         const durationCurrentAggregated = [40, 50, 70, 90, 80, 50]
-        const date =   ["2023-08-09", "2023-08-12", "2023-08-15", "2023-08-17", "2023-08-20", "2023-08-25"];
+        const date = ["2023-08-09", "2023-08-12", "2023-08-15", "2023-08-17", "2023-08-20", "2023-08-25"];
 
         const graphData = {};
         graphData.data = null;
@@ -66,8 +66,8 @@ function Usage(props) {
                 ['Marks'].concat(durationCurrentAggregated),
                 ['Date'].concat(date),
             ],
-            colors : {
-                ['Marks'] : '#00AB55'
+            colors: {
+                ['Marks']: '#00AB55'
             },
             // unload: unload(weatherTab),
             type: 'area-spline',
@@ -121,11 +121,11 @@ function Usage(props) {
             <button className={"btn btn-primary m-5"} onClick={handleDelete}>asd</button>
             <div className={"container"}>
                 <div className={"default-container"}>
-                    {loadGraph && dataSet.data &&<C3Chart area={{zerobased: false}} padding={{left: 45}} tooltip={dataSet.tooltip}
-                              zoom={dataSet.zoom}
+                    {loadGraph && dataSet.data && <C3Chart area={{ zerobased: false }} padding={{ left: 45 }} tooltip={dataSet.tooltip}
+                        zoom={dataSet.zoom}
 
-                              data={dataSet.data} subchart={{show: false}} onrendered={styleGraph}
-                              axis={dataSet.axis}/>}
+                        data={dataSet.data} subchart={{ show: false }} onrendered={styleGraph}
+                        axis={dataSet.axis} />}
                 </div>
             </div>
         </Layout>
