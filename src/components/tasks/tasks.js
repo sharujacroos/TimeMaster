@@ -192,7 +192,7 @@ export const Tasks = () => {
                     <td>{data.taskName}</td>
                     <td>{data.startDate}</td>
                     <td>{data.endDate}</td>
-                    <td>{data.category}</td>
+                    <td>{data.category.replace("_"," ")}</td>
                     {/* <td>{data.status}</td> */}
                     <td>
                       <div className={"task_state " + (colorChange(data.status))}
