@@ -23,16 +23,6 @@ export const TaskForm = (props) => {
         errors,
     } = formHandler(stateTask, validateTask);
 
-    // async function handleSubmit() {
-    //     try {
-    //         await axios.post("http://127.0.0.1:8000/task"),
-
-    //         );
-    //     } catch (error) {
-
-    //     }
-    // }
-
     useEffect(() => {
         dispatch(toggleLoader(true))
         axios.get(`http://127.0.0.1:8000/task`)
@@ -46,11 +36,14 @@ export const TaskForm = (props) => {
     }, [])
 
     useEffect(() => {
-        if (["View", "State"].includes(props.type) && !isEmpty(props.selectedTask)) {
+        if (["View", "State", "Edit"].includes(props.type) && !isEmpty(props.selectedTask)) {
 
             initForm(props.selectedTask)
         }
     }, [props.type, props.selectedTask])
+
+    console.log(props.selectedTask)
+    console.log(values)
 
     useEffect(() => {
         dispatch(toggleLoader(true))

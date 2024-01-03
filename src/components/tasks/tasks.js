@@ -17,49 +17,11 @@ export const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState(null)
   // const [taskAllList, setTaskAllList] = useState([])
   const [deletedId, setDeletedId] = useState(null)
-  // const [tasks, setTasks] = useState([
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Completed" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Failed" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" },
-  //   { no: 0o1, taskName: "Task01", startDate: "2023-11-30", endDate: "2024-01-30", category: "Backup and Recovery", status: "Running" }
-  // ])
 
   const [tasksAllList, setTasksAllList] = useState([])
   const [tasksList, setTasksList] = useState([])
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
-  const {
-    handleChange,
-    handleSubmit,
-    setValue,
-    values,
-    errors,
-  } = formHandler(isLoading, validateTask);
 
   function isLoading() {
     console.log("All are done")
@@ -68,7 +30,7 @@ export const Tasks = () => {
   function handleSearch(e) {
     let val = e.target.value;
     if (val !== "") {
-      let res = filter(tasksAllList, function (item) { return values(pick(item, 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()); });
+      let res = filter(tasksAllList, function (item) { return values(pick(item, 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()) });
       setTasksList(res);
       console.log(res)
     } else {
@@ -124,11 +86,12 @@ export const Tasks = () => {
 
   useEffect(() => {
     (async () => await fetchData())()
-  }, []);
+  }, [update]);
 
   async function fetchData() {
     const data = await axios.get("http://127.0.0.1:8000/task");
     setTasksList(data.data);
+    setTasksAllList(data.data);
   }
 
   return (
