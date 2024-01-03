@@ -4,6 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import FeatherIcon from "feather-icons-react"
 import { DtPicker } from 'react-calendar-datetime-picker'
+import 'react-calendar-datetime-picker/dist/style.css'
 import { validateEvent } from '../../utils/validation'
 import formHandler from "../../utils/FormHandler"
 import { toast } from "react-toastify";
