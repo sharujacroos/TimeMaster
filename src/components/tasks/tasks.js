@@ -31,12 +31,22 @@ export const Tasks = () => {
     let val = e.target.value;
     if (val !== "") {
       let res = filter(tasksAllList, function (item) { return values(pick(item, 'taskName', 'startDate', 'endDate', 'category', 'status')).toString().toLocaleLowerCase().includes(val.toLocaleLowerCase()) });
+      console.log(res);
       setTasksList(res);
       console.log(res)
     } else {
       setTasksList(tasksAllList);
     }
   }
+  function filterDataByKey(array,category,key="category"){
+    let filteredData = []
+    if(category === "All") {
+        filteredData = array
+    }else {
+        filteredData = array.filter((item) => item[key] === category)
+    }
+    return filteredData
+}
 
   function colorChange(status) {
     switch (status) {

@@ -7,6 +7,34 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
 export const Home = () => {
+  // const [state, setState] = useState({
+  //   options: {
+  //     colors: [
+  //       '#ab37e7', '#6b0d0d', '#546E7A', '#E91E63', '#FF9800'
+  //     ],
+  //     chart: {
+  //       id: "basic-bar"
+  //     },
+  //     xaxis: {
+  //       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  //     }
+  //   },
+  //   series: [
+  //     {
+  //       name: "Progress Tasks",
+  //       data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 54, 75, 96]
+  //     },
+  //     {
+  //       name: "Finished Tasks",
+  //       data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
+  //     },
+  //     {
+  //       name: "Failed Tasks",
+  //       data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
+  //     }
+  //   ]
+  // })
+
   const [state, setState] = useState({
     options: {
       colors: [
@@ -22,14 +50,102 @@ export const Home = () => {
     series: [
       {
         name: "Progress Tasks",
-        data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 54, 75, 96]
+        data: []
       },
       {
         name: "Finished Tasks",
-        data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
+        data: []
+      },
+      {
+        name: "Failed Tasks",
+        data: []
       }
     ]
-  })
+  });
+
+  // useEffect(() => {
+  //   // Fetch tasks data from the backend
+  //   const fetchTasksData = async () => {
+  //     try {
+  //       const response = await fetch('http://127.0.0.1:8000/task');
+  //       const tasksData = await response.json();
+
+  //       // Update state with the new tasks data
+  //       const progressTasks = tasksData.filter(task => task.status === 'IN_PROGRESS');
+  //       const completedTasks = tasksData.filter(task => task.status === 'COMPLETED');
+  //       const failedTasks = tasksData.filter(task => task.status === 'FAILED');
+
+  //       setState(prevState => ({
+  //         ...prevState,
+  //         series: [
+  //           { ...prevState.series[0], data: progressTasks.map(task => task.id) },
+  //           { ...prevState.series[1], data: completedTasks.map(task => task.id) },
+  //           { ...prevState.series[2], data: failedTasks.map(task => task.id) },
+  //         ],
+  //       }));
+  //     } catch (error) {
+  //       console.error('Error fetching tasks data:', error);
+  //       toast.error('Error fetching tasks data');
+  //     }
+  //   };
+
+  //   fetchTasksData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchTasksData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/task');
+        const tasksData = await response.json();
+
+        const uniqueMonths = [...new Set(tasksData.map(task => task.startDate.slice(5, 7)))];
+
+        const completedData = Array(uniqueMonths.length).fill(0);
+        const inProgressData = Array(uniqueMonths.length).fill(0);
+        const failedData = Array(uniqueMonths.length).fill(0);
+
+        tasksData.forEach(task => {
+          const monthIndex = uniqueMonths.indexOf(task.startDate.slice(5, 7));
+          if (monthIndex !== -1) {
+            switch (task.status) {
+              case "COMPLETED":
+                completedData[monthIndex]++;
+                break;
+              case "IN_PROGRESS":
+                inProgressData[monthIndex]++;
+                break;
+              case "FAILED":
+                failedData[monthIndex]++;
+                break;
+              default:
+                break;
+            }
+          }
+        });
+
+        setState(prevState => ({
+          ...prevState,
+          options: {
+            ...prevState.options,
+            xaxis: {
+              categories: uniqueMonths,
+            }
+          },
+          series: [
+            { ...prevState.series[0], data: completedData },
+            { ...prevState.series[1], data: inProgressData },
+            { ...prevState.series[2], data: failedData },
+          ],
+        }));
+      } catch (error) {
+        console.error('Error fetching tasks data:', error);
+        toast.error('Error fetching tasks data');
+      }
+    };
+
+    fetchTasksData();
+  }, []);
+
   return (
     <Layout>
       <div className="container mt-4 mb-4">
