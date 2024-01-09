@@ -64,6 +64,8 @@ export const Tasks = () => {
     return state.setting.confirmationDialog
   });
 
+  console.log(confirmationDialog)
+  console.log()
   useEffect(() => {
     if (!confirmationDialog || !confirmationDialog.onSuccess || !deletedId) {
       console.log("deleted")
@@ -72,7 +74,7 @@ export const Tasks = () => {
     console.log("deleted")
     dispatch(toggleLoader(true))
 
-    axios.delete(`http://127.0.0.1:8000/task`)
+    axios.delete(`http://127.0.0.1:8000/task/${deletedId}`)
       .then((res) => {
         setUpdate(!update)
         toast.success(`Successfully Deleted`)
@@ -155,7 +157,7 @@ export const Tasks = () => {
                     <td>{data.taskName}</td>
                     <td>{data.startDate}</td>
                     <td>{data.endDate}</td>
-                    <td>{data.category.replace("_"," ")}</td>
+                    <td>{data.category.replace("_", " ")}</td>
                     {/* <td>{data.status}</td> */}
                     <td>
                       <div className={"task_state " + (colorChange(data.status))}
@@ -188,7 +190,7 @@ export const Tasks = () => {
                           setModalShow(true)
                           setSelectedTask(data)
                         }} />
-                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={() => handleDelete(data._id)} />
+                      <FeatherIcon className={"action-icons text-red"} icon={"trash-2"} onClick={() => handleDelete(data.id)} />
                     </td>
                   </tr>
                 ))}

@@ -86,7 +86,7 @@ export const TaskForm = (props) => {
             return
         }
         dispatch(toggleLoader(true))
-        axios.put(`http://127.0.0.1:8000/task`, values)
+        axios.put(`http://127.0.0.1:8000/task/${values.id}`, values)
             .then((res) => {
                 console.log(res.data)
                 toast.success(`Successfully Task Updated`)
@@ -101,6 +101,8 @@ export const TaskForm = (props) => {
             })
     }, [isSubmit])
 
+    console.log(values.id);
+    
     function stateTask() {
         setIsSubmit(true)
     }
@@ -111,7 +113,7 @@ export const TaskForm = (props) => {
         console.log(props.selectedTask._id)
 
         dispatch(toggleLoader(true))
-        axios.put(`http://127.0.0.1:8000/task`, values)
+        axios.put(`http://127.0.0.1:8000/task/${values.id}`, values)
             .then((res) => {
                 console.log(res.data)
                 toast.success(`Successfully Updated`)
@@ -125,6 +127,8 @@ export const TaskForm = (props) => {
                 props.onHide()
             })
     }
+
+    console.log(props.type)
 
     return (
         <Modal

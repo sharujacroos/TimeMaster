@@ -1,5 +1,5 @@
 import Layout from '../../layout/layout'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import homeimage from '../../assets/home-image.png'
 import Chart from "react-apexcharts"
 import FeatherIcon from 'feather-icons-react'
