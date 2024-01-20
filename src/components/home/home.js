@@ -1,150 +1,30 @@
 import Layout from '../../layout/layout'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import homeimage from '../../assets/home-image.png'
 import Chart from "react-apexcharts"
 import FeatherIcon from 'feather-icons-react'
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import axios from 'axios'
 
 export const Home = () => {
-  // const [state, setState] = useState({
-  //   options: {
-  //     colors: [
-  //       '#ab37e7', '#6b0d0d', '#546E7A', '#E91E63', '#FF9800'
-  //     ],
-  //     chart: {
-  //       id: "basic-bar"
-  //     },
-  //     xaxis: {
-  //       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  //     }
-  //   },
-  //   series: [
-  //     {
-  //       name: "Progress Tasks",
-  //       data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 54, 75, 96]
-  //     },
-  //     {
-  //       name: "Finished Tasks",
-  //       data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
-  //     },
-  //     {
-  //       name: "Failed Tasks",
-  //       data: [90, 70, 35, 15, 29, 59, 90, 100, 90, 15, 45, 15]
-  //     }
-  //   ]
-  // })
-
-  const [state, setState] = useState({
-    options: {
-      colors: [
-        '#ab37e7', '#6b0d0d', '#546E7A', '#E91E63', '#FF9800'
-      ],
-      chart: {
-        id: "basic-bar"
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      }
-    },
-    series: [
-      {
-        name: "Progress Tasks",
-        data: []
-      },
-      {
-        name: "Finished Tasks",
-        data: []
-      },
-      {
-        name: "Failed Tasks",
-        data: []
-      }
-    ]
-  });
-
-  // useEffect(() => {
-  //   // Fetch tasks data from the backend
-  //   const fetchTasksData = async () => {
-  //     try {
-  //       const response = await fetch('http://127.0.0.1:8000/task');
-  //       const tasksData = await response.json();
-
-  //       // Update state with the new tasks data
-  //       const progressTasks = tasksData.filter(task => task.status === 'IN_PROGRESS');
-  //       const completedTasks = tasksData.filter(task => task.status === 'COMPLETED');
-  //       const failedTasks = tasksData.filter(task => task.status === 'FAILED');
-
-  //       setState(prevState => ({
-  //         ...prevState,
-  //         series: [
-  //           { ...prevState.series[0], data: progressTasks.map(task => task.id) },
-  //           { ...prevState.series[1], data: completedTasks.map(task => task.id) },
-  //           { ...prevState.series[2], data: failedTasks.map(task => task.id) },
-  //         ],
-  //       }));
-  //     } catch (error) {
-  //       console.error('Error fetching tasks data:', error);
-  //       toast.error('Error fetching tasks data');
-  //     }
-  //   };
-
-  //   fetchTasksData();
-  // }, []);
+  const [taskData, setTaskData] = useState([]);
 
   useEffect(() => {
-    const fetchTasksData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/task');
-        const tasksData = await response.json();
-
-        const uniqueMonths = [...new Set(tasksData.map(task => task.startDate.slice(5, 7)))];
-
-        const completedData = Array(uniqueMonths.length).fill(0);
-        const inProgressData = Array(uniqueMonths.length).fill(0);
-        const failedData = Array(uniqueMonths.length).fill(0);
-
-        tasksData.forEach(task => {
-          const monthIndex = uniqueMonths.indexOf(task.startDate.slice(5, 7));
-          if (monthIndex !== -1) {
-            switch (task.status) {
-              case "COMPLETED":
-                completedData[monthIndex]++;
-                break;
-              case "IN_PROGRESS":
-                inProgressData[monthIndex]++;
-                break;
-              case "FAILED":
-                failedData[monthIndex]++;
-                break;
-              default:
-                break;
-            }
-          }
-        });
-
-        setState(prevState => ({
-          ...prevState,
-          options: {
-            ...prevState.options,
-            xaxis: {
-              categories: uniqueMonths,
-            }
-          },
-          series: [
-            { ...prevState.series[0], data: completedData },
-            { ...prevState.series[1], data: inProgressData },
-            { ...prevState.series[2], data: failedData },
-          ],
-        }));
+        const response = await axios.get('http://127.0.0.1:8000/home');
+        console.log(response.data);
+        setTaskData(response.data);
       } catch (error) {
-        console.error('Error fetching tasks data:', error);
-        toast.error('Error fetching tasks data');
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchTasksData();
+    fetchData();
   }, []);
+
 
   return (
     <Layout>
@@ -171,11 +51,20 @@ export const Home = () => {
           <div className={"row  mt-4 pt-5"}>
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
+                <div className={"card-body "}>
+                  <div className={"card-text"}>Total Task</div>
+                  <div className={"d-flex align-items-center"}>
+                    <div className={"card-text_total"}><h1>{taskData.completed_task_count + taskData.ongoing_task_count + taskData.failed_count}</h1></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={"col-sm-3 mb-3 mb-sm-0"}>
+              <div className={"card home_card"}>
                 <div className={"card-body p-3"}>
                   <div className={"card-text"}>Total Finished Tasks</div>
                   <div className={"d-flex align-items-center"}>
-                    <div><FeatherIcon className={"home-action-icons me-3"} icon={"user-plus"} /></div>
-                    <div className={"card-text_total"}>29</div>
+                    <div className={"card-text_total"}><h1>{taskData.completed_task_count}</h1></div>
                   </div>
 
                 </div>
@@ -186,14 +75,7 @@ export const Home = () => {
                 <div className={"card-body p-3"}>
                   <div className={"card-text"}>On Going Tasks</div>
                   <div className={"d-flex align-items-center"}>
-                    <div><FeatherIcon className={"home-action-icons me-3"} icon={"user-check"} /></div>
-                    <div className={"card-text_total"}>
-                      <ul>
-                        <li>task 01</li>
-                        <li>task 01</li>
-                        <li>task 01</li>
-                      </ul>
-                    </div>
+                    <div className={"card-text_total"}><h1>{taskData.ongoing_task_count}</h1></div>
                   </div>
                 </div>
               </div>
@@ -201,21 +83,9 @@ export const Home = () => {
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
                 <div className={"card-body "}>
-                  <div className={"card-text"}>Choosing Task Categories</div>
+                  <div className={"card-text"}>Failed Task</div>
                   <div className={"d-flex align-items-center"}>
-                    <div><FeatherIcon className={"home-action-icons me-3"} icon={"dollar-sign"} /></div>
-                    <div className={"card-text_total"}>5</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={"col-sm-3 mb-3 mb-sm-0"}>
-              <div className={"card home_card"}>
-                <div className={"card-body "}>
-                  <div className={"card-text"}>Current Tasks</div>
-                  <div className={"d-flex align-items-center"}>
-                    <div><FeatherIcon className={"home-action-icons me-3"} icon={"dollar-sign"} /></div>
-                    <div className={"card-text_total"}>09</div>
+                    <div className={"card-text_total"}><h1>{taskData.failed_count}</h1></div>
                   </div>
                 </div>
               </div>
@@ -226,9 +96,73 @@ export const Home = () => {
             <h1 className="p-3 heading">Task Categories</h1>
             <div className="default-container">
               <Chart
-                options={state.options}
-                series={state.series}
-                type="bar"  // bar, line, area, radar, histogram, scatter, heatmap
+                options={{
+                  colors: [
+                    '#ab37e7', '#6b0d0d', '#546E7A', '#E91E63', '#FF9800'
+                  ],
+                  chart: {
+                    id: "basic-bar"
+                  },
+                  xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                  }
+                }}
+                series={[
+                  {
+                    name: "Finished Tasks",
+                    data: [
+                      taskData.graph && taskData.graph[1] ? taskData.graph[1].completed : 0,
+                      taskData.graph && taskData.graph[2] ? taskData.graph[2].completed : 0,
+                      taskData.graph && taskData.graph[3] ? taskData.graph[3].completed : 0,
+                      taskData.graph && taskData.graph[4] ? taskData.graph[4].completed : 0,
+                      taskData.graph && taskData.graph[5] ? taskData.graph[5].completed : 0,
+                      taskData.graph && taskData.graph[6] ? taskData.graph[6].completed : 0,
+                      taskData.graph && taskData.graph[7] ? taskData.graph[7].completed : 0,
+                      taskData.graph && taskData.graph[8] ? taskData.graph[8].completed : 0,
+                      taskData.graph && taskData.graph[9] ? taskData.graph[9].completed : 0,
+                      taskData.graph && taskData.graph[10] ? taskData.graph[10].completed : 0,
+                      taskData.graph && taskData.graph[11] ? taskData.graph[11].completed : 0,
+                      taskData.graph && taskData.graph[12] ? taskData.graph[12].completed : 0,
+
+                    ]
+                  },
+                  {
+                    name: "On-going Tasks",
+                    data: [
+                      taskData.graph && taskData.graph[1] ? taskData.graph[1].running : 0,
+                      taskData.graph && taskData.graph[2] ? taskData.graph[2].running : 0,
+                      taskData.graph && taskData.graph[3] ? taskData.graph[3].running : 0,
+                      taskData.graph && taskData.graph[4] ? taskData.graph[4].running : 0,
+                      taskData.graph && taskData.graph[5] ? taskData.graph[5].running : 0,
+                      taskData.graph && taskData.graph[6] ? taskData.graph[6].running : 0,
+                      taskData.graph && taskData.graph[7] ? taskData.graph[7].running : 0,
+                      taskData.graph && taskData.graph[8] ? taskData.graph[8].running : 0,
+                      taskData.graph && taskData.graph[9] ? taskData.graph[9].running : 0,
+                      taskData.graph && taskData.graph[10] ? taskData.graph[10].running : 0,
+                      taskData.graph && taskData.graph[11] ? taskData.graph[11].running : 0,
+                      taskData.graph && taskData.graph[12] ? taskData.graph[12].running : 0,
+                    ]
+                  },
+                  {
+                    name: "Failed Tasks",
+                    data: [
+                      taskData.graph && taskData.graph[1] ? taskData.graph[1].failed : 0,
+                      taskData.graph && taskData.graph[2] ? taskData.graph[2].failed : 0,
+                      taskData.graph && taskData.graph[3] ? taskData.graph[3].failed : 0,
+                      taskData.graph && taskData.graph[4] ? taskData.graph[4].failed : 0,
+                      taskData.graph && taskData.graph[5] ? taskData.graph[5].failed : 0,
+                      taskData.graph && taskData.graph[6] ? taskData.graph[6].failed : 0,
+                      taskData.graph && taskData.graph[7] ? taskData.graph[7].failed : 0,
+                      taskData.graph && taskData.graph[8] ? taskData.graph[8].failed : 0,
+                      taskData.graph && taskData.graph[9] ? taskData.graph[9].failed : 0,
+                      taskData.graph && taskData.graph[10] ? taskData.graph[10].failed : 0,
+                      taskData.graph && taskData.graph[11] ? taskData.graph[11].failed : 0,
+                      taskData.graph && taskData.graph[12] ? taskData.graph[12].failed : 0,
+
+                    ]
+                  }
+                ]}
+                type="bar"
                 width="100%"
               />
             </div>
