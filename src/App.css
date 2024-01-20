@@ -227,6 +227,17 @@
   background: linear-gradient(135deg, rgba(203, 91, 228, 0.2), rgba(136, 0, 167, 0.2)) rgb(255, 255, 255) !important;
 }
 
+.increased-size {
+  width: 60px;
+  height: 60px;
+}
+
+.cardText {
+  font-size: 22px;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(107, 13, 13) !important;
+}
+
 .home-image {
   height: 250px !important;
 }

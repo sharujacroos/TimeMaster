@@ -52,9 +52,10 @@ export const Home = () => {
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
                 <div className={"card-body "}>
-                  <div className={"card-text"}>Total Task</div>
-                  <div className={"d-flex align-items-center"}>
-                    <div className={"card-text_total"}><h1>{taskData.completed_task_count + taskData.ongoing_task_count + taskData.failed_count}</h1></div>
+                  <div className={"card-text cardText"}>Total Tasks</div>
+                  <div className={"d-flex align-items-center px-5 pt-3"}>
+                    <div className={"card-text_total me-5"}><h1>{taskData.completed_task_count + taskData.ongoing_task_count + taskData.failed_count}</h1></div>
+                    <div><FeatherIcon className={"home-action-icons ms-5 increased-size"} icon={"dollar-sign"} /></div>
                   </div>
                 </div>
               </div>
@@ -62,20 +63,21 @@ export const Home = () => {
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
                 <div className={"card-body p-3"}>
-                  <div className={"card-text"}>Total Finished Tasks</div>
-                  <div className={"d-flex align-items-center"}>
-                    <div className={"card-text_total"}><h1>{taskData.completed_task_count}</h1></div>
+                  <div className={"card-text cardText"}>Total Finished Tasks</div>
+                  <div className={"d-flex align-items-center px-5 pt-3"}>
+                    <div className={"card-text_total me-5"}><h1>{taskData.completed_task_count}</h1></div>
+                    <div><FeatherIcon className={"home-action-icons ms-5 increased-size"} icon={"dollar-sign"} /></div>
                   </div>
-
                 </div>
               </div>
             </div>
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
                 <div className={"card-body p-3"}>
-                  <div className={"card-text"}>On Going Tasks</div>
-                  <div className={"d-flex align-items-center"}>
-                    <div className={"card-text_total"}><h1>{taskData.ongoing_task_count}</h1></div>
+                  <div className={"card-text cardText"}>On Going Tasks</div>
+                  <div className={"d-flex align-items-center px-5 pt-3"}>
+                    <div className={"card-text_total me-5"}><h1>{taskData.ongoing_task_count}</h1></div>
+                    <div><FeatherIcon className={"home-action-icons ms-5 increased-size"} icon={"dollar-sign"} /></div>
                   </div>
                 </div>
               </div>
@@ -83,9 +85,10 @@ export const Home = () => {
             <div className={"col-sm-3 mb-3 mb-sm-0"}>
               <div className={"card home_card"}>
                 <div className={"card-body "}>
-                  <div className={"card-text"}>Failed Task</div>
-                  <div className={"d-flex align-items-center"}>
-                    <div className={"card-text_total"}><h1>{taskData.failed_count}</h1></div>
+                  <div className={"card-text cardText"}>Failed Tasks</div>
+                  <div className={"d-flex align-items-center px-5 pt-3"}>
+                    <div className={"card-text_total me-5"}><h1>{taskData.failed_count}</h1></div>
+                    <div><FeatherIcon className={"home-action-icons ms-5 increased-size"} icon={"dollar-sign"} /></div>
                   </div>
                 </div>
               </div>
