@@ -11,13 +11,15 @@ import SideClose from "../assets/carbon_side-panel-close.svg";
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from "react-toastify";
 import { changeToggle, setUserDetail, toggleLoader } from "../redux/actions";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
     signOut
 } from "../utils/Authentication";
 
-function Layout({ children }) {
-
+function Layout({ children, token }) {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
@@ -29,6 +31,46 @@ function Layout({ children }) {
     function toggleDrawer() {
         setOpen(!open);
     }
+
+    useEffect(() => {
+        if (!token) {
+            // Handle the absence of the token (e.g., redirect to login)
+            navigate('/login');
+        }
+    }, [token, navigate]);
+
+    const handleLogout = async () => {
+        try {
+            const authTokenValue = token;
+            console.log('Received token:', authTokenValue);
+            // Make a POST request to your logout endpoint
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/logout/",
+                null,
+                {
+                    headers: {
+                        Authorization: `Token ${authTokenValue}`,
+                    },
+                }
+            );
+            console.log('Logout response:', response);
+            console.log('Response status:', response.status);
+            // Handle the response accordingly
+            if (response.status === 204) {
+                console.log('Logout successful');
+
+                // Redirect to the login page or perform any other action after successful logout
+                navigate("/login");
+                console.log('Logout successful');
+            } else {
+                // Handle errors, such as failed logout attempts
+                console.error('Logout failed. Status:', response.status, 'Text:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('An error occurred during logout', error);
+        }
+    };
 
     return (
         <div className="container-fluid">
@@ -90,7 +132,7 @@ function Layout({ children }) {
                         </div>
                         <div className={"w-100 px-sm-2"}>
                             <NavLink
-                                onClick={signOut}
+                                onClick={handleLogout}
                                 className={({ isActive }) => isActive ? "side-menu-item side-menu-active" : "side-menu-item"} to={"/login"}>
                                 <div className={'d-flex'}>
                                     <FeatherIcon icon="log-out" className={!open ? 'me-2' : "ms-1"} />

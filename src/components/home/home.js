@@ -7,8 +7,12 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useEffect } from 'react';
 import axios from 'axios'
+import { useLocation } from 'react-router-dom';
 
 export const Home = () => {
+  const location = useLocation();
+  const token = location?.state?.token;
+
   const [taskData, setTaskData] = useState([]);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ export const Home = () => {
 
 
   return (
-    <Layout>
+    <Layout token={token}>
       <div className="container mt-4 mb-4">
         <div className={"col-md"}>
           <div className={"homeCard-container"}>
