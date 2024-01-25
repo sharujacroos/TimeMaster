@@ -36,7 +36,7 @@ export const Login = () => {
 
       // Save the token in local storage or state
       setToken(authToken);
-
+      localStorage.setItem('token', authToken);
       // Redirect or perform any other action after successful login
       navigate("/", { state: { token: authToken } });
 

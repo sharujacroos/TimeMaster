@@ -11,14 +11,19 @@ import { useLocation } from 'react-router-dom';
 
 export const Home = () => {
   const location = useLocation();
-  const token = location?.state?.token;
+  // const token = location?.state?.token;
 
   const [taskData, setTaskData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/home');
+        const response = await axios.get('http://127.0.0.1:8000/home');    
+        // const response = await axios.get('http://127.0.0.1:8000/home', {
+        //   headers: {
+        //     Authorization: `Token ${localStorage.getItem('token')}`,
+        //   },
+        // });  
         console.log(response.data);
         setTaskData(response.data);
       } catch (error) {
@@ -31,7 +36,7 @@ export const Home = () => {
 
 
   return (
-    <Layout token={token}>
+    <Layout token={localStorage.getItem('token')}>
       <div className="container mt-4 mb-4">
         <div className={"col-md"}>
           <div className={"homeCard-container"}>

@@ -84,7 +84,11 @@ export const Tasks = () => {
     console.log("deleted")
     dispatch(toggleLoader(true))
 
-    axios.delete(`http://127.0.0.1:8000/task/${deletedId}`)
+    axios.delete(`http://127.0.0.1:8000/task/${deletedId}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         setUpdate(!update)
         toast.success(`Successfully Deleted`)
@@ -101,7 +105,11 @@ export const Tasks = () => {
   }, [update]);
 
   async function fetchData() {
-    const data = await axios.get("http://127.0.0.1:8000/task");
+    const data = await axios.get("http://127.0.0.1:8000/task", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     setTasksList(data.data);
     setTasksAllList(data.data);
   }

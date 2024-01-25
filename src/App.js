@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 // import {createBrowserRouter, Route, Routes} from "react-router-dom"
 import Layout from './layout/layout';
 import { Route, Routes } from 'react-router-dom';
@@ -24,12 +24,16 @@ function App() {
       <Loader />
       <ConfirmationDialog />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/calendar" element={<Calender />} />
-        <Route path="/analysis" element={<Analysis />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route element={<PrivateRoute />}> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/calendar" element={<Calender />} />
+          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/settings" element={<Settings />} />
+        {/* </Route> */}
+        {/* <Route element={<AnonymousRoute />}> */}
+          <Route path="/login" element={<Login />} />
+        {/* </Route> */}
         <Route path="/signup" element={<SignUp />} />
       </Routes>
       <ToastContainer />
