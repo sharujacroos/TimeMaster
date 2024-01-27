@@ -8,17 +8,18 @@ import { useDispatch } from "react-redux";
 import { useEffect } from 'react';
 import axios from 'axios'
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export const Home = () => {
-  const location = useLocation();
+  // const location = useLocation();
   // const token = location?.state?.token;
-
+  const token = Cookies.get('tokenCookie');
   const [taskData, setTaskData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/home');    
+        const response = await axios.get('http://127.0.0.1:8000/home');
         // const response = await axios.get('http://127.0.0.1:8000/home', {
         //   headers: {
         //     Authorization: `Token ${localStorage.getItem('token')}`,
@@ -36,7 +37,7 @@ export const Home = () => {
 
 
   return (
-    <Layout token={localStorage.getItem('token')}>
+    <Layout>
       <div className="container mt-4 mb-4">
         <div className={"col-md"}>
           <div className={"homeCard-container"}>

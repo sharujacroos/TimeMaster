@@ -6,9 +6,10 @@ import FormHandler from "../../utils/FormHandler";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
 
 export const Login = () => {
-  const [loginError, setLoginError] = useState(null);
+  // const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
   const [token, setToken] = useState(null);
 
@@ -33,12 +34,12 @@ export const Login = () => {
 
       // Assuming the API returns a token
       const authToken = response.data.token;
-
+      Cookies.set('tokenCookie', authToken, { expires: 7 });
       // Save the token in local storage or state
-      setToken(authToken);
-      localStorage.setItem('token', authToken);
+      // setToken(authToken);
+      // localStorage.setItem('token', authToken);
       // Redirect or perform any other action after successful login
-      navigate("/", { state: { token: authToken } });
+      navigate("/");
 
     } catch (error) {
       // Handle login failure, show error message, etc.
@@ -54,7 +55,7 @@ export const Login = () => {
       }
 
       // Set loginError to display the error message
-      setLoginError("Invalid Username or Password. Please try again.");
+      // setLoginError("Invalid Username or Password. Please try again.");
       toast.error(`Invalid Username or Password`)
     }
   };
@@ -83,9 +84,9 @@ export const Login = () => {
         >
           <div className={"container-widget"}>
             <div className="login-form-inner">
-              {loginError && (
+              {/* {loginError && (
                 <p className="text-red text-center">{loginError}</p>
-              )}
+              )} */}
               <form action="#">
                 <div className="d-flex align-items-center">
                   <img

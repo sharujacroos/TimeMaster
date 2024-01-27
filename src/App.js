@@ -24,17 +24,13 @@ function App() {
       <Loader />
       <ConfirmationDialog />
       <Routes>
-        {/* <Route element={<PrivateRoute />}> */}
-          <Route path="/" element={<Home />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/calendar" element={<Calender />} />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/settings" element={<Settings />} />
-        {/* </Route> */}
-        {/* <Route element={<AnonymousRoute />}> */}
-          <Route path="/login" element={<Login />} />
-        {/* </Route> */}
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/calendar" element={<Calender />} />
+        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       <ToastContainer />
     </div>
