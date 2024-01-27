@@ -8,7 +8,7 @@ import { Home } from "./components/home/home";
 import { Tasks } from './components/tasks/tasks';
 import { Calender } from './components/calender/calender';
 import { Analysis } from './components/analysis/analysis';
-import { Settings } from './components/settings/settings';
+import Settings from './components/settings/settings';
 import { Login } from './components/login/login';
 import { SignUp } from './components/login/signup';
 import 'react-big-calendar/lib/css/react-big-calendar.css';

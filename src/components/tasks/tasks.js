@@ -38,15 +38,15 @@ export const Tasks = () => {
       setTasksList(tasksAllList);
     }
   }
-  function filterDataByKey(array,category,key="category"){
+  function filterDataByKey(array, category, key = "category") {
     let filteredData = []
-    if(category === "All") {
-        filteredData = array
-    }else {
-        filteredData = array.filter((item) => item[key] === category)
+    if (category === "All") {
+      filteredData = array
+    } else {
+      filteredData = array.filter((item) => item[key] === category)
     }
     return filteredData
-}
+  }
 
   function colorChange(status) {
     switch (status) {

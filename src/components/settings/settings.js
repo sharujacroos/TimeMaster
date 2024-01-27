@@ -1,16 +1,17 @@
-import Layout from '../../layout/layout'
 import React, { useEffect, useState } from 'react';
-import { getUserId } from "../../utils/Authentication";
+import Layout from '../../layout/layout';
 import formHandler from "../../utils/FormHandler";
 import { validateTaskSetting } from "../../utils/validation";
-import { setUserDetail, toggleLoader } from "../../redux/actions";
+import { toggleLoader } from "../../redux/actions";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import PasswordSetting from "../password-setting/password-setting";
-// import { getUserId } from "../../utils/Authentication";
+import Cookies from 'js-cookie';
 
-export const Settings = () => {
+
+const Settings = () => {
+    const dispatch = useDispatch();
     const [formSubmitted, setFormSubmitted] = useState(false);
     const {
         handleChange,
@@ -20,127 +21,130 @@ export const Settings = () => {
         values,
         errors,
     } = formHandler(taskSetting, validateTaskSetting);
-    const dispatch = useDispatch();
-    const [userData, setUserData] = useState({})
+
+
+
+    const handleSubmitt = (e) => {
+        e.preventDefault()
+
+        dispatch(toggleLoader(true));
+        const token = Cookies.get('tokenCookie');
+        const config = {
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        };
+        axios.put('http://127.0.0.1:8000/user/', {
+            email: values.email,
+            username: values.username
+        }, config)
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    setValue(res.data.data)
+                    toast.success("Successfully Updated")
+                } else {
+                    toast.error("Failed to Update")
+                }
+
+            })
+            .catch((err) => {
+                toast.error("Failed to update user data");
+                console.error('Error updating user profile', err);
+            })
+            .finally(() => {
+                dispatch(toggleLoader(false));
+            });
+    }
 
     function taskSetting() {
-        setFormSubmitted(true)
+        setFormSubmitted(true);
     }
 
     useEffect(() => {
-        dispatch(toggleLoader(true))
-        axios.get('http://127.0.0.1:8000/task/user')
-            .then((res) => {
-                // setUserData(res.data.filter((item) => item._id === getUserId())[0])
-            }).catch((err) => {
-                console.log(err)
-            }).finally(() => {
-                dispatch(toggleLoader(false))
-            })
+        getUserDetails();
     }, [])
 
-    useEffect(() => {
-        initForm(userData);
-    }, [userData]);
-
-
-    useEffect(() => {
-        if (!formSubmitted) {
-            return
-        }
-        dispatch(toggleLoader(true))
-        axios.put('http://127.0.0.1:8000/task/user', values)
+    function getUserDetails() {
+        dispatch(toggleLoader(true));
+        const token = Cookies.get('tokenCookie');
+        const config = {
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        };
+        axios.get('http://127.0.0.1:8000/user/', config)
             .then((res) => {
-                localStorage.setItem("NAME", res.data.name)
-                dispatch(setUserDetail(res.data))
-                toast.success("Profile Updated Successfully")
-            }).catch((err) => {
-                toast.error("Something went wrong")
-                console.log(err)
-            }).finally(() => {
-                dispatch(toggleLoader(false))
-                setFormSubmitted(false)
-            })
+                console.log(res);
+                if (res.status === 200) {
+                    console.log(res.data.data)
+                    setValue(res.data.data)
 
-    }, [formSubmitted])
+                }
+            })
+            .catch((err) => {
+                toast.error("Failed to update user data");
+                console.error('Error updating user profile', err);
+            })
+            .finally(() => {
+                dispatch(toggleLoader(false));
+            });
+    }
 
     return (
         <Layout>
-            <div className={"container"}>
-                <div className={"container-widget"}>
-                    <h1 className={"p-3 heading"}>Settings</h1>
-                    <div className={"form-container"}>
-                        <form onSubmit={handleSubmit} className={"row task-settings-form"}>
-                            <div className={"col-md-6"}>
-                                <div className={"mb-3"}>
-                                    <h6><label htmlFor="exampleInputEmail1" className="settings-form-text">Name</label></h6>
-                                    <input name={"name"} placeholder={"Enter Last Name"}
-                                        className={`form-control ${errors.name ? "border-red" : ""}`}
+            <div className={'container'}>
+                <div className={'container-widget'}>
+                    <h1 className={'p-3 heading'}>Settings</h1>
+                    <div className={'form-container'}>
+                        <form onSubmit={(e) => handleSubmitt(e)} className={'row task-settings-form'}>
+                            <div className={'col-md-6'}>
+                                <div className={'mb-3'}>
+                                    <h6>
+                                        <label htmlFor="exampleInputEmail1" className="settings-form-text">
+                                            Name
+                                        </label>
+                                    </h6>
+                                    <input
+                                        name={'username'}
+                                        className={`form-control ${errors.username ? 'border-red' : ''}`}
                                         id="exampleInputEmail1"
                                         onChange={handleChange}
-                                        value={values.name || ""}
+                                        value={values.username || ''}
                                     />
-                                    {errors.name && <p className={"text-red"}>{errors.name}</p>}
-
+                                    {errors.username && <p className={'text-red'}>{errors.username}</p>}
                                 </div>
                             </div>
-                            <div className={"col-md-6"}>
-                                <div className={"mb-3"}>
-                                    <h6><label htmlFor="exampleInputEmail1" className="settings-form-text">Contact
-                                        No</label></h6>
-                                    <input name={"phoneNumber"} placeholder={"Enter  Contact No"}
-                                        className={`form-control ${errors.phoneNumber ? "border-red" : ""}`}
+                            <div className={'col-md-6'}>
+                                <div className={'mb-3'}>
+                                    <h6>
+                                        <label htmlFor="exampleInputEmail1" className="settings-form-text">
+                                            Email
+                                        </label>
+                                    </h6>
+                                    <input
+                                        name={'email'}
+                                        placeholder={'Enter Email'}
+                                        className={`form-control ${errors.email ? 'border-red' : ''}`}
                                         id="exampleInputEmail1"
                                         onChange={handleChange}
-                                        value={values.phoneNumber || ""}
+                                        value={values.email || ''}
                                     />
-                                    {errors.phoneNumber && <p className={"text-red"}>{errors.phoneNumber}</p>}
-
+                                    {errors.email && <p className={'text-red'}>{errors.email}</p>}
                                 </div>
                             </div>
-                            <div className={"col-md-6"}>
-                                <div className={"mb-3"}>
-                                    <h6><label htmlFor="exampleInputEmail1" className="settings-form-text">Address
-                                    </label></h6>
-                                    <input name={"address"} placeholder={"Enter Address"}
-                                        className={`form-control ${errors.address ? "border-red" : ""}`}
-                                        id="exampleInputEmail1"
-                                        onChange={handleChange}
-                                        value={values.address || ""}
-                                    />
-                                    {errors.address && <p className={"text-red"}>{errors.address}</p>}
-
-                                </div>
-                            </div>
-                            <div className={"col-md-6"}>
-                                <div className={"mb-3"}>
-                                    <h6><label htmlFor="exampleInputEmail1" className="settings-form-text">Email
-                                    </label></h6>
-                                    <input name={"email"} placeholder={"Enter Email"}
-                                        className={`form-control ${errors.email ? "border-red" : ""}`}
-                                        id="exampleInputEmail1"
-                                        onChange={handleChange}
-                                        value={values.email || ""}
-                                    />
-                                    {errors.email && <p className={"text-red"}>{errors.email}</p>}
-
-                                </div>
-                            </div>
-                            {<div className="d-flex justify-content-end">
-                                <button
-                                    type="button"
-                                    className={"btn btn-secondary tasks-dropdown-btn"}
-                                    onClick={handleSubmit}
-                                >
+                            <div className="d-flex justify-content-end">
+                                <button type="submit" className={'btn btn-secondary tasks-dropdown-btn'}>
                                     Update
                                 </button>
-                            </div>}
-
+                            </div>
                         </form>
                     </div>
                     <PasswordSetting />
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
+
+export default Settings;

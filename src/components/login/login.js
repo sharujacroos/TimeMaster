@@ -16,7 +16,6 @@ export const Login = () => {
   const CallbackFunction = () => {
     // Your logic for successful form submission
     console.log("Form submitted successfully!");
-    toast.success(`Login successfully`)
     // Additional actions can be performed here, such as making API requests, updating state, etc.
   };
 
@@ -40,7 +39,7 @@ export const Login = () => {
       // localStorage.setItem('token', authToken);
       // Redirect or perform any other action after successful login
       navigate("/");
-
+      toast.success(`Login Successfully`)
     } catch (error) {
       // Handle login failure, show error message, etc.
       console.error("Login failed", error);
