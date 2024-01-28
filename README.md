@@ -1,3 +1,7 @@
+username - janu
+password - janu123
+If not, please create the account by signing up and logging in with your username and password.
+
 npm install
 
 npm install --force
