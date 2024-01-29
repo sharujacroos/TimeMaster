@@ -60,7 +60,7 @@ function Layout({ children }) {
             // Handle the response accordingly
             if (response.status === 204) {
                 console.log('Logout successful');
-
+                Cookies.remove('tokenCookie');
                 // Redirect to the login page or perform any other action after successful logout
                 navigate("/login");
                 console.log('Logout successful');
