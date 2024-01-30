@@ -380,20 +380,20 @@ export const Calender = () => {
                           Color
                         </label>
                         <div className={"d-flex gap-3"}>
-                          <div className={"select-round green-round " + (values.color === "#01452EFF" ? "selected-round" : "")} onClick={() => setValue({ color: "#01452EFF", textColor: "rgb(1 69 46)" })}>
+                          <div className={"select-round green-round " + (values.color === "#01452EFF" ? "selected-round" : "")} onClick={() => setValue({ color: "#01452EFF", textColor: "#01452E" })}>
                             {values.color === "#01452EFF" && <FeatherIcon className={"text-white"} icon={"check"} />}
                           </div>
                           <div className={"select-round red-round " + (values.color === "#FF0000FF" ? "selected-round" : "")} onClick={() => setValue({ color: "#FF0000FF", textColor: "#FF0000" })}>
                             {values.color === "#FF0000FF" && <FeatherIcon className={"text-white"} icon={"check"} />}
                           </div>
-                          <div className={"select-round blue-round " + (values.color === "#0000FFFF" ? "selected-round" : "")} onClick={() => setValue({ color: "#0000FFFF", textColor: "#0000FF" })}>
+                          <div className={"select-round darkBlue-round " + (values.color === "#0000FFFF" ? "selected-round" : "")} onClick={() => setValue({ color: "#0000FFFF", textColor: "#0000FF" })}>
                             {values.color === "#0000FFFF" && <FeatherIcon className={"text-white"} icon={"check"} />}
                           </div>
                           <div className={"select-round purple-round " + (values.color === "#800080FF" ? "selected-round" : "")} onClick={() => setValue({ color: "#800080FF", textColor: "#800080" })}>
                             {values.color === "#800080FF" && <FeatherIcon className={"text-white"} icon={"check"} />}
                           </div>
-                          <div className={"select-round yellow-round " + (values.color === "#FFFF00FF" ? "selected-round" : "")} onClick={() => setValue({ color: "#FFFF00FF", textColor: "#FFFF00" })}>
-                            {values.color === "#FFFF00FF" && <FeatherIcon className={"text-white"} icon={"check"} />}
+                          <div className={"select-round yellow-round " + (values.color === "#BCBC07" ? "selected-round" : "")} onClick={() => setValue({ color: "#BCBC07", textColor: "#FFFF00" })}>
+                            {values.color === "#BCBC07" && <FeatherIcon className={"text-dark"} icon={"check"} />}
                           </div>
                         </div>
                       </div>
