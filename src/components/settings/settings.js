@@ -43,6 +43,9 @@ const Settings = () => {
                 if (res.status === 200) {
                     setValue(res.data.data)
                     toast.success("Successfully Updated")
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
                 } else {
                     toast.error("Failed to Update")
                 }
@@ -51,6 +54,9 @@ const Settings = () => {
             .catch((err) => {
                 toast.error("Failed to update user data");
                 console.error('Error updating user profile', err);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             })
             .finally(() => {
                 dispatch(toggleLoader(false));

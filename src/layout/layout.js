@@ -14,6 +14,8 @@ import { changeToggle, setUserDetail, toggleLoader } from "../redux/actions";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from 'js-cookie';
+import formHandler from "../utils/FormHandler";
+import { validateTaskSetting } from "../utils/validation";
 
 import {
     signOut
@@ -73,6 +75,44 @@ function Layout({ children }) {
             console.error('An error occurred during logout', error);
         }
     };
+
+    useEffect(() => {
+        getUserDetails();
+    }, [])
+
+    function getUserDetails() {
+        dispatch(toggleLoader(true));
+        const token = Cookies.get('tokenCookie');
+        const config = {
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        };
+        axios.get('http://127.0.0.1:8000/user/', config)
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log(res.data.data)
+                    setValue(res.data.data)
+
+                }
+            })
+            .catch((err) => {
+                console.error('Error updating user profile', err);
+            })
+            .finally(() => {
+                dispatch(toggleLoader(false));
+            });
+    }
+
+    const {
+        handleChange,
+        handleSubmit,
+        setValue,
+        initForm,
+        values,
+        errors,
+    } = formHandler();
 
     return (
         <div className="container-fluid">
@@ -159,25 +199,19 @@ function Layout({ children }) {
 
                             <div className="collapse navbar-collapse" id="navbarNav">
                                 <ul className="navbar-nav ms-auto align-items-center">
-                                    {/* <li className="nav-item">
-                                        <a className="nav-link active position-relative px-2" aria-current="page"
-                                            href="#">
-                                            <div className="red-dot" />
-                                            <img src={Bell} />
-                                        </a>
-                                    </li>
-                                    <li className="nav-item px-2">
-                                        <a className="nav-link  position-relative" aria-current="page" href="#">
-
-                                            <img src={Msg} /></a>
-                                    </li> */}
                                     <li className="nav-item px-2">
                                         <a className="nav-link  position-relative p-0" aria-current="page" href="#">
 
                                             <img src={Profile} className="rounded-circle user-profile mr-2" />
                                         </a>
                                     </li>
-
+                                    <li className="nav-item px-2 pt-3">
+                                        <div className="d-flex justify-content-center">
+                                            <p className="custom-username-style">{values.username}</p>
+                                            <span className="mx-2">||</span>
+                                            <p className="custom-username-style">{values.email}</p>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
