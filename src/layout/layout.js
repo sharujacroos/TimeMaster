@@ -189,6 +189,16 @@ function Layout({ children }) {
                     <nav className="navbar navbar-expand-lg bg-white border-bottom-d1d1d1 px-4">
                         <div className="container-fluid">
                             {/*<a className="navbar-brand" href="#">Navbar</a>*/}
+                            <div className="" id="">
+                                <ul className="navbar-nav ms-auto align-items-center d-lg-none">
+                                    <li className="nav-item px-2">
+                                        <a className="nav-link  position-relative p-0" aria-current="page" href="#">
+
+                                            <img src={Profile} className="rounded-circle user-profile mr-2" />
+                                        </a>
+                                    </li>
+                                   </ul>
+                            </div>
                             <button
                                 className="navbar-toggler ms-auto toggle-expand-button"
                                 type="button"
