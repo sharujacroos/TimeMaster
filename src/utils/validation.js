@@ -130,6 +130,15 @@ export function validateEvent(values) {
     if (!values.end) {
         errors.end = "End Date is Required"
     }
+    if (!values.status) {
+        errors.status = "Status is Required"
+    }
+    if (!values.color) {
+        errors.color = "Color is Required"
+    }
+    if (!values.description) {
+        errors.description = "Description is Required"
+    }
 
     return errors;
 }

@@ -66,6 +66,7 @@ function Layout({ children }) {
                 // Redirect to the login page or perform any other action after successful logout
                 navigate("/login");
                 console.log('Logout successful');
+                toast.success(`Logout Successfully`)
             } else {
                 // Handle errors, such as failed logout attempts
                 console.error('Logout failed. Status:', response.status, 'Text:', response.statusText);

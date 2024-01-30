@@ -5,6 +5,7 @@ import FormHandler from "../../utils/FormHandler";
 import { validateSignUp as validate } from "../../utils/validation"; // Alias as validate
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const SignUp = () => {
         values
       );
       navigate("/login");
+      toast.success(`Successfully Registered`)
       console.log(response.data);
     } catch (error) {
       if (error.response) {
