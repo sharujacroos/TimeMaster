@@ -24,9 +24,9 @@ function App() {
       <Loader />
       <ConfirmationDialog />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/calendar" element={<Calender />} />
         <Route path="/analysis" element={<Analysis />} />

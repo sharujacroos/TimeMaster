@@ -38,7 +38,7 @@ export const Login = () => {
       // setToken(authToken);
       // localStorage.setItem('token', authToken);
       // Redirect or perform any other action after successful login
-      navigate("/");
+      navigate("/home");
       toast.success(`Login Successfully`)
     } catch (error) {
       // Handle login failure, show error message, etc.

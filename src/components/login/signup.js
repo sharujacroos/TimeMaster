@@ -24,7 +24,7 @@ export const SignUp = () => {
         "http://127.0.0.1:8000/api/register/",
         values
       );
-      navigate("/login");
+      navigate("/");
       toast.success(`Successfully Registered`)
       console.log(response.data);
     } catch (error) {
