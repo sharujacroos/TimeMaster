@@ -1,3 +1,15 @@
+username - janu
+password - janu123
+If not, please create the account by signing up and logging in with your username and password.
+
+npm install
+
+npm install --force
+
+npm start
+
+  npm install js-cookie
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
